@@ -8,7 +8,6 @@ module.exports = async function startServer() {
   /* create express object and initialise loaders */
   const app = express();
   await loaders(app);
-  console.log('app in startServer', app);
 
   /* Error Handler */
   app.listen(process.env.PORT, err => {

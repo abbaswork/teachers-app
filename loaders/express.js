@@ -36,5 +36,3 @@ module.exports = function expressLoader (app){
 
     return app;
 }
-
-module.exports = expressLoader;
