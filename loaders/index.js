@@ -1,10 +1,12 @@
-/* import express loader which contains setup for express */
+/* import loaders */
 var expressLoader = require('./express.js');
+var sequelizeLoader = require('./sequelize.js');
 
 /* export loader function that intializes seperate loaders */
-module.exports = async function loaders(app){
+module.exports = async function loaders(app) {
 
-  /* Initialise express loader */
+  /* Initialise loaders */
   await expressLoader(app);
-  console.log('Express Initialized');
+  await sequelizeLoader();
+
 }

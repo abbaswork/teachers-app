@@ -16,8 +16,10 @@ const App = () => (
 
       {/* Switch searches through route children to find one to match with current url */}
       <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/login" component={Login}/>
+        
+        {/* Default Route is login */}
+        <Route exact path="/" component={Login}/>
+        <Route path="/home" component={Home}/>
       </Switch>
     </Suspense>
   </Router>
