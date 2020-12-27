@@ -1,5 +1,21 @@
-function Login(props) {
-    return <h1>Login Page</h1>;
-  }
+import React from "react";
+import auth from "./../auth/auth";
 
-  export default Login;
+const LandingPage = props => {
+  return (
+    <div>
+      <h1>Landing Page</h1>
+      <button
+        onClick={() => {
+          auth.login(() => {
+            props.history.push("/home");
+          });
+        }}
+      >
+        Login
+      </button>
+    </div>
+  );
+};
+
+export default LandingPage;

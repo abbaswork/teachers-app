@@ -11,7 +11,7 @@ var indexRouter = require('./../routes/index');
 var usersRouter = require('./../routes/users');
 
 /* Export function that initialises express */
-module.exports = function expressLoader (app){
+module.exports = function expressLoader(app) {
 
     /* Setup view engine */
     app.set('views', path.join(__dirname, 'views'));
