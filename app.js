@@ -2,12 +2,6 @@
 const loaders = require('./loaders/index');
 const express = require('express');
 
-/* import and configure dotenv early in the setup */
-const configVars = require('dotenv').config();
-if (configVars.error) {
-  throw configVars.error
-}
-
 /* export script to initialise app */
 module.exports = async function startServer() {
 

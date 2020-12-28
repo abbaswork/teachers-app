@@ -34,7 +34,6 @@ export default class Login extends React.Component {
         <br />
         <input type="text" value={this.state.password} onChange={this.handleChange.bind(this, 'password')} />
         <br />
-
         <button onClick={this.handleLogin}> Login </button>
       </div>
     );

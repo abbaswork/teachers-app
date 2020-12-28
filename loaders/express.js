@@ -34,6 +34,6 @@ module.exports = function expressLoader(app) {
         next(createError(404));
     });
 
-    console.log('Express intialized')
+    console.log('Express intialized');
     return app;
 }

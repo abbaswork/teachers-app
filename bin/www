@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/* import and configure dotenv early in the setup */
+const configVars = require('dotenv').config();
+if (configVars.error) {
+  throw configVars.error
+}
+
 /* import modules */
 var start = require('../app');
 var debug = require('debug')('teachers-app:server');
