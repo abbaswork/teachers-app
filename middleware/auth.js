@@ -1,3 +1,4 @@
+/* Passport Auth */
 var passport = require('passport');
 var Strategy = require('passport-http').BasicStrategy;
 

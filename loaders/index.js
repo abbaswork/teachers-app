@@ -7,6 +7,8 @@ module.exports = async function loaders(app) {
 
   /* Initialise loaders */
   await expressLoader(app);
+  console.log('Express intialized');
   await SequelizeBot.init();
+  console.log('Sequelize Connection has been established successfully.');
 
 }

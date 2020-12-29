@@ -15,7 +15,7 @@ module.exports = async function startServer() {
       console.log(err);
       return;
     }
-    console.log(`Your server is ready !`);
+    console.log(`Server ready!`);
   });
 
   return app;

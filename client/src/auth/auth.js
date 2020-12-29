@@ -23,7 +23,11 @@ class Auth {
           username: 'jack',
           password: 'secret'
         }
-      }); console.log(response);
+      });
+
+      console.log(response);
+      this.authenticated = true;
+
     } catch (error) {
       console.log(error);
     }
