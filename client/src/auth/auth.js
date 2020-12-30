@@ -4,16 +4,16 @@ import axios from 'axios';
 class Auth {
   constructor() {
     /* Using standard login fields */
-    this.userName = '';
+    this.email = '';
     this.password = '';
     this.authenticated = false;
   }
 
   /* Login/Logout functions with callbacks */
-  async login(userName, password, cb) {
+  async login(email, password, cb) {
 
     /* Assign constructor values, referenced in other auth operations */
-    this.userName = userName;
+    this.email = email;
     this.password = password;
 
     /* Function to send authentication request to server */
