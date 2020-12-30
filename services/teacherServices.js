@@ -2,7 +2,12 @@ var SequelizeBot = require('./../models/db');
 
 class TeacherServices {
 
-    /* Handle Login for users, used by passport Basic Strategy to verify credentials */
+    /**
+     * Handle login for users, used by passport Basic Strategy to verify credentials
+     * @param {string} email- Provide the email to login with
+     * @param {string} password - Provide the password to login with
+     * @callback cb - Callback with (err, user) params that resolves logic
+     */
     async login(email, password, cb) {
 
         /* if called with an invalid callback resolve with error */
@@ -25,7 +30,12 @@ class TeacherServices {
 
     };
 
-    /* Handle signup for new users */
+    /**
+     * Function that adds new teacher & email to database
+     * @param {string} email - email used in signup
+     * @param {string} password - password used in signup
+     * @param {string} name - name assigned to teacher
+     */
     async signup(email, password, name) {
 
         /* Check for invalid input */
@@ -38,7 +48,7 @@ class TeacherServices {
             where: { email: email }
         });
 
-        /* If it does send error, otherwise create user */
+        /* If it does send error, otherwise create user and send confirmation*/
         if (results) {
             throw Error(`Email already exists`);
         } else {
