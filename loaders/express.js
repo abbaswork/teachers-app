@@ -25,7 +25,7 @@ module.exports = function expressLoader(app) {
     app.use(cookieParser());
 
     /* initialise routers */
-    //app.use('/', indexRouter);
+    app.use('/', indexRouter);
     app.use('/users', usersRouter);
 
     /* Serve Built React Client */

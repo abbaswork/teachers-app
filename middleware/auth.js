@@ -1,6 +1,7 @@
 /* Passport Auth */
 var passport = require('passport');
 var Strategy = require('passport-http').BasicStrategy;
+const TeacherServices = require('./../services/teacherServices');
 
 /* Temp setup, TODO: replace records with entries from Database */
 var records = [
@@ -23,8 +24,9 @@ function findByUsername(username, cb) {
 
 /* Setup Basic Stragey in passport and export middleware */
 passport.use(new Strategy(
-    function (username, password, cb) {
-        findByUsername(username, function (err, user) {
+    function (email, password, cb) {
+        /* Use Teacher validation function and provide callback */
+        TeacherServices.login(email, password, function (err, user) {
             if (err) { return cb(err); }
             if (!user) { return cb(null, false); }
             if (user.password != password) { return cb(null, false); }

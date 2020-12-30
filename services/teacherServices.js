@@ -16,12 +16,40 @@ class TeacherServices {
         }
 
         /* find user with matching email and password and return user */
-        const user = await SequelizeBot.Teacher.findAll({
+        var [results, meta] = await SequelizeBot.Teacher.findAll({
             where: { email: email, password: password }
         });
 
-        return (null, !Array.isArray(user) || !user.length ? null : user);
+        /* return cb with null for no match and results for match */
+        return cb(null, !results ? null : results);
 
+    };
+
+    /* Handle signup for new users */
+    async signup(email, password, name) {
+
+        /* Check for invalid input */
+        if (!email || !password || !name) {
+            throw Error(`Passed invalid ${!email ? 'email' : (!password ? 'password' : 'name')}`)
+        }
+
+        /* Check if the email already exists */
+        var [results, meta] = await SequelizeBot.Email.findAll({
+            where: { email: email }
+        });
+
+        /* If it does send error, otherwise create user */
+        if (results) {
+            throw Error(`Email already exists`);
+        } else {
+            await SequelizeBot.Email.create({ email: email });
+            await SequelizeBot.Teacher.create({
+                email: email,
+                password: password,
+                name: name
+            });
+            return true;
+        }
     }
 }
 
