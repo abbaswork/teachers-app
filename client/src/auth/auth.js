@@ -18,10 +18,10 @@ class Auth {
 
     /* Function to send authentication request to server */
     try {
-      const response = await axios.get('http://localhost:5000/', {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + '/teachers/login', {
         auth: {
-          username: 'jack',
-          password: 'secret'
+          username: email,
+          password: password
         }
       });
 
@@ -29,7 +29,7 @@ class Auth {
       this.authenticated = true;
 
     } catch (error) {
-      console.log(error);
+      console.log('there was an error', error);
     }
 
 
