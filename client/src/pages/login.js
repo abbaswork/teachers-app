@@ -1,6 +1,8 @@
 import React from "react";
 import auth from "./../auth/auth";
 
+import { Button } from 'reactstrap';
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -36,6 +38,7 @@ export default class Login extends React.Component {
         <input type="text" value={this.state.password} onChange={this.handleChange.bind(this, 'password')} />
         <br />
         <button onClick={this.handleLogin}> Login </button>
+        <Button>Test</Button>
       </div>
     );
   }

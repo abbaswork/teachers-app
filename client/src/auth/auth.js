@@ -25,11 +25,10 @@ class Auth {
         }
       });
 
-      console.log(response);
       this.authenticated = true;
 
     } catch (error) {
-      console.log('there was an error', error);
+      
     }
 
 
