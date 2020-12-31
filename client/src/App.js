@@ -1,6 +1,9 @@
 /* import React with code splitting + client side router */
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+
+/* Import Layout Routes */
+import AuthLayoutRoute from './layouts/auth/auth-route';
 import { ProtectedRoute } from './auth/protectedRoute';
 
 /*render dynamic imports as regular components to enable code splitting (only loading what's needed) */
@@ -20,7 +23,7 @@ const App = () => (
         
         {/* Using defined protectRoute component and login as default */}
         <ProtectedRoute exact path="/home" component={Home} />
-        <Route path="/" component={Login}/>
+        <AuthLayoutRoute path="/" component={Login}/>
       </Switch>
     </Suspense>
   </Router>

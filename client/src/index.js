@@ -3,9 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-/* Import css files */
+/* Import css + sass files */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import './assets/scss/main.scss'
 
 /* Misc imports */
 import reportWebVitals from './reportWebVitals';
