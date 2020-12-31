@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
-/* import and configure dotenv early in the setup */
-const configVars = require('dotenv').config();
-if (configVars.error) {
-  throw configVars.error
-}
+/* import and configure dotenv early in the setup, configure only if outside of production */
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 /* import modules */
 var start = require('../app');
