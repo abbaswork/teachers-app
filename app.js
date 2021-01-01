@@ -10,12 +10,12 @@ module.exports = async function startServer() {
   await loaders(app);
 
   /* Error Handler */
-  app.listen(process.env.PORT, err => {
+  app.listen(process.env.PORT || '5000', err => {
     if (err) {
       console.log(err);
       return;
     }
-    console.log(`Server ready!`);
+    console.log(`Server ready on Port: `, process.env.PORT || '5000');
   });
 
   return app;

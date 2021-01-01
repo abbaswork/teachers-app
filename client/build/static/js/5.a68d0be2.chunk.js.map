@@ -1,0 +1,1 @@
+{"version":3,"sources":["pages/home.js"],"names":["Home","props"],"mappings":"mHAIeA,UAJf,SAAcC,GACZ,OAAO","file":"static/js/5.a68d0be2.chunk.js","sourcesContent":["function Home(props) {\n  return <h1>Welcome to the App, JK JK Lol</h1>;\n}\n\nexport default Home;"],"sourceRoot":""}

@@ -9,6 +9,7 @@ import { ProtectedRoute } from './auth/protectedRoute';
 /*render dynamic imports as regular components to enable code splitting (only loading what's needed) */
 const Home = lazy(() => import('./pages/home'));
 const Login = lazy(() => import('./pages/login'));
+const Signup = lazy(() => import('./pages/signup'));
 
 const App = () => (
 
@@ -23,6 +24,7 @@ const App = () => (
         
         {/* Using defined protectRoute component and login as default */}
         <ProtectedRoute exact path="/home" component={Home} />
+        <AuthLayoutRoute exact path="/signup" component={Signup}/>
         <AuthLayoutRoute path="/" component={Login}/>
       </Switch>
     </Suspense>

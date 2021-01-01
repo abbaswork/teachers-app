@@ -25,7 +25,7 @@ export default function AuthLayout(props) {
                             <Col md="8" className="mx-auto">
 
                                 <div className="text-center">
-                                    <img className="mx-auto" src={logo} />
+                                    <img className="mx-auto" src={logo} alt="Teachers Toolkit Logo" />
                                 </div>
 
                                 {props.children}

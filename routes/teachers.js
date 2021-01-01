@@ -27,11 +27,24 @@ router.post('/signup',
     /* Signup using teacher service, if error is caught, forward to error handler*/
     try {
       await teacherServices.signup(req.body.email, req.body.password, req.body.name);
+      res.status(201).send('Teacher Created');
     } catch (e) {
+      next(e);
+    }
+
+  });
+
+/* check if email exists*/
+router.get('/exists/:email',
+  async function (req, res, next) {
+
+    try { /* Check if email already exists*/
+      var exists = await teacherServices.exists(req.params.email);
+      res.status(201).send((exists) ? true : false);
+    } catch (err) {
       next(err);
     }
 
-    res.status(201).send('Teacher Created');
   });
 
 module.exports = router;

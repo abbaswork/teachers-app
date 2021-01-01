@@ -31,6 +31,23 @@ class TeacherServices {
     };
 
     /**
+     * Function that checks if email already exists
+     * @param {string} email - email to check
+     */
+    async exists(email) {
+
+        if (!email) {
+            throw Error(`Passed invalid email: ${email}`);
+        }
+
+        var [results, meta] = await SequelizeBot.Email.findAll({
+            where: { email: email }
+        });
+
+        return results;
+    }
+
+    /**
      * Function that adds new teacher & email to database
      * @param {string} email - email used in signup
      * @param {string} password - password used in signup
@@ -44,9 +61,7 @@ class TeacherServices {
         }
 
         /* Check if the email already exists */
-        var [results, meta] = await SequelizeBot.Email.findAll({
-            where: { email: email }
-        });
+        var results = await this.exists(email);
 
         /* If it does send error, otherwise create user and send confirmation*/
         if (results) {

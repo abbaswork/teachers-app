@@ -18,7 +18,7 @@ class Auth {
 
     /* Function to send authentication request to server */
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + '/teachers/login', {
+      await axios.get(process.env.REACT_APP_SERVER_URL + '/teachers/login', {
         auth: {
           username: email,
           password: password
