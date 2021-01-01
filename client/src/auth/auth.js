@@ -28,7 +28,7 @@ class Auth {
       this.authenticated = true;
 
     } catch (error) {
-      
+
     }
 
 
