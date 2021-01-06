@@ -1,3 +1,20 @@
-html, body, #root, .App {
-    height: 100%;
-  }
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+
+.no-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-orange {
+  color: orange;
+}
+
+.bg-orange{
+  background-color: orange;
+}
