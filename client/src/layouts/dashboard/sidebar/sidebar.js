@@ -13,27 +13,25 @@ import heroImage from './../../../assets/images/hero.jpg';
 /* Rendered as functional component */
 const Sidebar = (props) => {
 
-    /* Toggle States */
+    /* Toggle States
     const [sidebar, setSidebar] = useState(true);
     const toggleSidebar = () => setSidebar(!sidebar);
+    */
 
     const [classes, setClasses] = useState(false);
     const toggleClasses = () => setClasses(!classes);
 
-    /* Adjust sidebar width based on view port */
-    const setVw = (Number(window.innerHeight) > 900 ? '15vw' : '100vw');
-
     return (
         /* Style sidebar with background image and orange overlay */
         <div id="mySidebar" className="sidebar text-white" style={{
-            width: (sidebar ? setVw : '0px'), //set width using toggle
+            width: (props.sidebar ? props.setVw : '0px'), //set width using toggle
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover', boxShadow: 'inset 0 0 0 2000px rgba(255, 127, 80, 0.8)'
         }}>
             {/* First Row includes toggle button for sidebar and Title */}
             <Row className="border-divider pb-1">
                 <Col xs="2">
-                    <button className="collapse-icon text-white m-0" onClick={toggleSidebar} >&#9776;</button>
+                    <button className="collapse-icon text-white m-0" onClick={props.toggle} >&#9776;</button>
                 </Col>
                 <Col xs="10" className="d-flex align-items-center">
                     <h3 className="m-0">Classroom</h3>

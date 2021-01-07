@@ -47,9 +47,9 @@ export default class SectionCard extends React.Component {
 
         return (
             <Card className={this.props.className} body>
-                <Row className="mb-5">
+                <Row className="mb-2">
                     <Col xs="10">
-                        <CardText tag="h5">Lessons</CardText>
+                        <CardText tag="h5">{this.props.task.name}</CardText>
                     </Col>
                     <Col className="text-right" xs="2">
 
@@ -73,7 +73,7 @@ export default class SectionCard extends React.Component {
                                 <BsFillClockFill className="text-orange" />
                             </Col>
                             <Col className="" xs="10">
-                                <CardText>Mon April 1st</CardText>
+                                <CardText>{this.props.task.date.toString()}</CardText>
                             </Col>
                         </Row>
                     </ListGroupItem>
