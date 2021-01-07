@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 /* Import Layout Routes */
 import AuthLayoutRoute from './layouts/auth/auth-route';
-import AdminLayoutRoute from './layouts/dashboard/admin-route';
+import AdminLayoutRoute from './layouts/dashboard/dashboard-route';
 
 /*render dynamic imports as regular components to enable code splitting (only loading what's needed) */
 const Home = lazy(() => import('./pages/home'));

@@ -3,8 +3,8 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 /* Auth layout */
-import { ProtectedRoute } from './../../auth/protectedRoute';
-import AdminLayout from './admin-layout';
+import { ProtectedRoute } from '../../auth/protectedRoute';
+import AdminLayout from './dashboard-layout';
 
 /* Component responsible for loading Auth (Login, Signup) pages in the Auth layout, deconstruct component to render and pass props to it */
 const AdminLayoutRoutes = ({ component: Component, ...rest }) => {
