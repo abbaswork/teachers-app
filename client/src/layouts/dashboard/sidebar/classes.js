@@ -2,8 +2,11 @@ import React from "react";
 import { NavLink } from 'react-router-dom';
 
 /* Ui imports */
-import { Col, Row } from 'reactstrap';
-import { BsFillTrashFill, BsPencil, BsFillPlusSquareFill } from "react-icons/bs";
+import {
+    Col, Row,
+    Input,
+} from 'reactstrap';
+import { BsFillTrashFill, BsPencil, BsFillPlusSquareFill, BsFillXSquareFill } from "react-icons/bs";
 
 /* Example Data, that would be retrieved from server API */
 const db = [
@@ -27,12 +30,28 @@ export default class Classes extends React.Component {
         super(props);
         this.state = {
             data: [],
+            addRow: false,
+            newRow: ''
         }
     }
 
     /* Retrieve Classes from Server API */
     componentDidMount() {
         this.setState({ data: db });
+    }
+
+    handleCreate = (e) => {
+
+        /* When adding input check if row is active and button click, otherwise check if enter key was clicked*/
+        if (((this.state.addRow && e === undefined) || e.key === 'Enter') && this.state.newRow !== '') {
+
+            /* Logic: Send request to server to add and remount component in callback */
+            this.setState({
+                data: [{ name: this.state.newRow, id: '1' }, ...this.state.data],
+                newRow: '',
+                addRow: false
+            });
+        }
     }
 
     /* Using public class field syntax to avoid binding in constructor */
@@ -45,6 +64,8 @@ export default class Classes extends React.Component {
     }
 
     render() {
+
+        console.log(this.state);
 
         return (
             <>
@@ -60,10 +81,27 @@ export default class Classes extends React.Component {
                         </Col>
                     </Row>
                 )}
+
+                {/* Row is used to add new class */}
+                <Row hidden={!this.state.addRow}>
+                    <Col xs="2"></Col>
+                    <Col xs="8">
+                        <Input type="text" className="bg-none" value={this.state.newRow} onChange={(e) => this.setState({ newRow: e.target.value })} onKeyPress={this.handleCreate} placeholder="Enter Name" />
+                    </Col>
+                    <Col xs="1" className="p-0 d-flex align-items-center">
+                        <BsFillXSquareFill style={{ cursor: 'pointer' }} onClick={() => this.setState({ addRow: false, newRow: '' })} />
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col xs="2"></Col>
                     <Col xs="8">
-                        <BsFillPlusSquareFill style={{ cursor: 'pointer' }} />
+                        <BsFillPlusSquareFill style={{ cursor: 'pointer' }} onClick={() =>
+                            this.state.addRow ? //if row is already active
+                                this.handleCreate() : //create 
+                                this.setState({ addRow: true }) //else make row active
+                        }
+                        />
                     </Col>
                 </Row>
             </>
