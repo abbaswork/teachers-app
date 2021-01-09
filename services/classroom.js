@@ -1,11 +1,10 @@
 var SequelizeBot = require('./../models/db');
 
-class classroomServices {
+class ClassroomServices {
 
     /**
      * Automically created when user signs up
      * @param {string} email- Provide the email to create classroom for
-     * @callback cb - Callback with (err, user) params that resolves logic
      */
     async createClassroom(email) {
 
@@ -13,6 +12,8 @@ class classroomServices {
         if (!email) {
             throw Error(`Passed invalid email: ${email}`);
         }
+
+        console.log('passed email: ', email);
 
         /* find teacher id of email */
         var [results, meta] = await SequelizeBot.Teacher.findAll({
@@ -26,14 +27,14 @@ class classroomServices {
 
             /* create classroom for teacher with given email and return teacher */
             await SequelizeBot.Classroom.create({
-                teacher_id: results[0].id,
+                teacher_id: results.id,
                 name: 'default'
             });
 
-            return results[0];
+            return results;
         }
 
     };
 }
 
-module.exports = new classroomServices();
+module.exports = new ClassroomServices();
