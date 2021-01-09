@@ -3,10 +3,10 @@ const configVars = require('dotenv').config();
 /* Testing + with promises libraries */
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
-const TeacherServices = require('./../services/teacherServices');
+const TeacherServices = require('../services/teacherServices');
 
 /* DB imports for before and after loading rows */
-var SequelizeBot = require('./../models/db');
+var SequelizeBot = require('../models/db');
 const { Op } = require("sequelize");
 
 /* configure chai to use promises and set expect to follow BDD style */

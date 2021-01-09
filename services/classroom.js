@@ -13,8 +13,6 @@ class ClassroomServices {
             throw Error(`Passed invalid email: ${email}`);
         }
 
-        console.log('passed email: ', email);
-
         /* find teacher id of email */
         var [results, meta] = await SequelizeBot.Teacher.findAll({
             where: { email: email }
@@ -26,12 +24,12 @@ class ClassroomServices {
         } else {
 
             /* create classroom for teacher with given email and return teacher */
-            await SequelizeBot.Classroom.create({
+            const classroom = await SequelizeBot.Classroom.create({
                 teacher_id: results.id,
                 name: 'default'
             });
 
-            return results;
+            return classroom;
         }
 
     };

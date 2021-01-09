@@ -1,35 +1,27 @@
 var SequelizeBot = require('./../models/db');
 
-class classServices {
+class Class {
 
     /**
-     * Handle login for users, used by passport Basic Strategy to verify credentials
-     * @param {string} email- Provide the email to login with
-     * @param {string} password - Provide the password to login with
-     * @callback cb - Callback with (err, user) params that resolves logic
+     * Create class for classroom
+     * @param {number} classroomId- Provide the id of the classroom
      */
-    async createClass(email, password, cb) {
-
-        /* if called with an invalid callback resolve with error */
-        if (!cb) {
-            throw new Error("login intialized with invalid callback function");
-        }
+    async createClass(classroomId, name) {
 
         /* return null in the callback if invalid username or password */
-        if (!email || !password) {
-            return cb(null, null);
+        if (!classroomId || !name) {
+            throw Error(`Passed invalid ${!classroom ? 'classroom' : 'name'}`);
         }
 
-        /* find user with matching email and password and return user */
-        var [results, meta] = await SequelizeBot.Teacher.findAll({
-            where: { email: email, password: password }
+        /* create class for classroom with given name */
+        const newClass = await SequelizeBot.Class.create({
+            classroom_id: classroomId,
+            name: name
         });
 
-        /* return cb with null for no match and results for match */
-        return cb(null, !results ? null : results);
+        return newClass;
 
     };
-
 }
 
-module.exports = new classServices();
+module.exports = new Class();
