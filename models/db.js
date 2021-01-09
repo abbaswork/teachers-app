@@ -5,6 +5,11 @@ const config = require('./../config/db');
 /* Load Sequelize models */
 const teacherModel = require('./teacher');
 const emailModel = require('./email');
+const classroomModel = require('./classroom');
+const classModel = require('./class');
+const sectionModel = require('./section');
+const taskModel = require('./task');
+const subtaskModel = require('./subtask');
 const { options } = require("./../config/db");
 
 /* Create sequelize class that can both load sequelize and return connection instance */
@@ -21,12 +26,27 @@ class SequelizeBot {
         /* Test connection */
         try {
             await this.sequelize.authenticate();
-        
+
             /* If succesful load all the tables and determine the relations */
             this.Teacher = await teacherModel(this.sequelize, DataTypes);
-            this.Email  = await emailModel(this.sequelize, DataTypes);
-            this.Email.hasOne(this.Teacher, {foreignKey: 'email'});
-            
+            this.Email = await emailModel(this.sequelize, DataTypes);
+            this.Email.hasOne(this.Teacher, { foreignKey: 'email' });
+
+            this.Classroom = await classroomModel(this.sequelize, DataTypes);
+            this.Teacher.hasMany(this.Classroom, { foreignKey: 'teacher_id' });
+
+            this.Class = await classModel(this.sequelize, DataTypes);
+            this.Classroom.hasMany(this.Class, { foreignKey: 'classroom_id' });
+
+            this.Section = await sectionModel(this.sequelize, DataTypes);
+            this.Class.hasMany(this.Section, { foreignKey: 'class_id' });
+
+            this.Task = await taskModel(this.sequelize, DataTypes);
+            this.Section.hasMany(this.Task, { foreignKey: 'section_id' });
+
+            this.Subtask = await subtaskModel(this.sequelize, DataTypes);
+            this.Task.hasMany(this.Subtask, { foreignKey: 'task_id' });
+
             /* Finally sync all the tables */
             this.sequelize.sync();
 

@@ -1,12 +1,12 @@
 /* Export function that creates sequelize model and accepts seq instance and seq types*/
 module.exports = (sequelize, type) => {
-    return sequelize.define('teacher', {
+    return sequelize.define('subtask', {
         id: {
-            type: type.INTEGER,
+            type: type.BIGINT,
             primaryKey: true,
             autoIncrement: true
         },
-        password: type.STRING,
-        name: type.STRING
+        name: type.STRING,
+        status: type.BOOLEAN
     })
 }
