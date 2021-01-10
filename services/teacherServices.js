@@ -1,4 +1,5 @@
 var SequelizeBot = require('./../models/db');
+var ClassroomServices = require('./classroom');
 
 class TeacherServices {
 
@@ -67,12 +68,14 @@ class TeacherServices {
         if (results) {
             throw Error(`Email already exists`);
         } else {
+            /* Create teacher with email and default classroom */
             await SequelizeBot.Email.create({ email: email });
             await SequelizeBot.Teacher.create({
                 email: email,
                 password: password,
                 name: name
             });
+            await ClassroomServices.createClassroom(email);
             return true;
         }
     }

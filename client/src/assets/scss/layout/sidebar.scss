@@ -26,6 +26,21 @@
   transition: 0.3s;
 }
 
+/* Sidebar buttons */
+.sidebar button {
+  color: white;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 1.5rem;
+  transition: 0.3s;
+}
+
+.sidebar button:hover {
+  color: black;
+  background: none;
+}
+
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
   color: black;

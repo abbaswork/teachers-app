@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var teacherServices = require('./../services/teacherServices');
+var teacherServices = require('../services/teacherServices');
 
 /* Load user defined middleware */
-var passport = require('./../middleware/auth');
+var passport = require('../middleware/auth');
 
 /* Start all teacher requests with authentication
 app.all('/', 

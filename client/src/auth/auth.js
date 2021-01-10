@@ -28,11 +28,9 @@ class Auth {
       this.authenticated = true;
 
     } catch (error) {
-
+      console.log(error);
     }
 
-
-    //this.authenticated = true;
     cb();
   }
 

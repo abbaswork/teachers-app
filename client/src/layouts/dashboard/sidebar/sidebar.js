@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import Classes from './classes';
 
 /* UI Imports */
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import { BsClipboard, BsFillTrashFill, BsPencil, BsFillPlusSquareFill, BsBoxArrowInRight } from "react-icons/bs";
 import heroImage from './../../../assets/images/hero.jpg';
 
@@ -18,7 +18,7 @@ const Sidebar = (props) => {
     const toggleSidebar = () => setSidebar(!sidebar);
     */
 
-    const [classes, setClasses] = useState(false);
+    const [classes, setClasses] = useState(true);
     const toggleClasses = () => setClasses(!classes);
 
     return (
@@ -44,7 +44,7 @@ const Sidebar = (props) => {
                     <BsClipboard className="side-icon text-white h5" />
                 </Col>
                 <Col xs="10">
-                    <a className="p-0" href="javascript:void(0)" onClick={toggleClasses}>Classes</a>
+                    <Button className="p-0" onClick={toggleClasses}>Classes</Button>
                     {/* Child Rows with collapse*/}
                 </Col>
             </Row>

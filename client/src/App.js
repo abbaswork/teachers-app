@@ -27,13 +27,15 @@ const App = () => (
       {/* Switch searches through route children to find one to match with current url */}
       <Switch>
 
-        {/* Testing only */}
+        {/* Testing only 
         <AdminLayout/>
-        {/* Using defined protectRoute component and login as default 
+        */}
+
+        {/* Using defined protectRoute component and login as default */}
         <AdminLayoutRoute exact path="/home" component={Home} />
         <AuthLayoutRoute exact path="/signup" component={Signup} />
         <AuthLayoutRoute path="/" component={Login} />
-        */}
+
       </Switch>
     </Suspense>
   </Router>

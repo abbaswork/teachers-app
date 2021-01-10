@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 /* Ui imports */
 import {
@@ -7,6 +8,8 @@ import {
     Input,
 } from 'reactstrap';
 import { BsFillTrashFill, BsPencil, BsFillPlusSquareFill, BsFillXSquareFill } from "react-icons/bs";
+
+import auth from "./../../../auth/auth";
 
 /* Example Data, that would be retrieved from server API */
 const db = [
@@ -31,26 +34,56 @@ export default class Classes extends React.Component {
         this.state = {
             data: [],
             addRow: false,
+            editRow: false,
             newRow: ''
         }
     }
 
     /* Retrieve Classes from Server API */
-    componentDidMount() {
-        this.setState({ data: db });
+    async componentDidMount() {
+
+        //this.setState({ data: db });
+        try {
+            const resp = await axios.get(process.env.REACT_APP_SERVER_URL + '/class', {
+                auth: {
+                    username: auth.email,
+                    password: auth.password
+                }
+            });
+            this.setState({ data: resp.data });
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 
-    handleCreate = (e) => {
+    handleCreate = async (e) => {
 
         /* When adding input check if row is active and button click, otherwise check if enter key was clicked*/
         if (((this.state.addRow && e === undefined) || e.key === 'Enter') && this.state.newRow !== '') {
 
-            /* Logic: Send request to server to add and remount component in callback */
-            this.setState({
-                data: [{ name: this.state.newRow, id: '1' }, ...this.state.data],
-                newRow: '',
-                addRow: false
-            });
+            try { /* Logic: Send request to server to add class and remount component */
+                const resp = await axios.post(process.env.REACT_APP_SERVER_URL + '/class',
+                    {
+                        name: this.state.newRow
+                    }, {
+                    auth: {
+                        username: auth.email,
+                        password: auth.password
+                    }
+                });
+
+                this.setState({
+                    //data: [{ name: this.state.newRow, id: '1' }, ...this.state.data],
+                    newRow: '',
+                    addRow: false
+                }, function () {
+                    this.componentDidMount()
+                });
+
+            } catch (e) {
+                console.log(e);
+            }
         }
     }
 
@@ -59,25 +92,35 @@ export default class Classes extends React.Component {
         this.setState({ [field]: e.target.value })
     }
 
-    handleDelete = (field, e) => {
-        this.setState({ [field]: e.target.value })
+    handleDelete = async (id) => {
+
+        try { /* try to send request to delete current class and remount classes */
+            const resp = await axios.delete(process.env.REACT_APP_SERVER_URL + '/class/' + id, {
+                auth: {
+                    username: auth.email,
+                    password: auth.password
+                }
+            });
+            this.componentDidMount()
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     render() {
-
-        console.log(this.state);
-
         return (
             <>
                 {this.state.data.map((classes) =>
                     <Row key={classes.id}>
                         <Col xs="2"> </Col>
                         <Col xs="8">
-                            <NavLink to="/about" className="no-overflow p-0" style={{ fontSize: '1.3rem' }}>{classes.name}</NavLink>
+                            <NavLink to="/about" className="no-overflow p-0" style={{ fontSize: '1.3rem' }}>
+                                {classes.name}
+                            </NavLink>
                         </Col>
                         <Col className="p-0" xs="2">
-                            <BsFillTrashFill className="mr-2" style={{ cursor: 'pointer' }} />
-                            <BsPencil style={{ cursor: 'pointer' }} />
+                            <BsFillTrashFill className="mr-2" style={{ cursor: 'pointer' }} onClick={() => this.handleDelete(classes.id)} />
+                            {/* Future Implementation; requires lifting states and functionality upwards into parent class: <BsPencil style={{ cursor: 'pointer' }} /> */}
                         </Col>
                     </Row>
                 )}
