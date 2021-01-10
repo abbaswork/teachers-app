@@ -20,7 +20,7 @@ export default function DashboardLayout(props) {
             <Sidebar sidebar={sidebar} toggle={toggle} setVw={setVw} />
             <Container fluid id="main" style={{ marginLeft: sidebar ? setVw : '0px' }}>
                 <PageHeader className="mb-5" toggle={toggle} sidebar={sidebar} />
-                <Home />
+                {props.children}
             </Container>
         </Container>
     );
