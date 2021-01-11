@@ -22,11 +22,13 @@ const Sidebar = (props) => {
 
     const [classes, setClasses] = useState(true);
     const toggleClasses = () => setClasses(!classes);
-    const [removeCookie] = useCookies(['cookie-name']);
+    const [cookies, removeCookie] = useCookies(['auth']);
 
     const logout = () => {
         auth.logout(() => {
-            removeCookie('auth');
+            if (cookies) {
+                removeCookie('auth');
+            }
             props.history.push("/login");
         });
     }

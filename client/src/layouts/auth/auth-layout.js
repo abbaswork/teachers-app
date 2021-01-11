@@ -22,7 +22,7 @@ export default function AuthLayout(props) {
                 <Col className="d-flex align-items-center mt-5 mt-md-0 mx-3 mx-md-0" style={{ marginBottom: '15rem' }} sm="12" md="6">
                     <Container>
                         <Row>
-                            <Col md="8" className="mx-auto">
+                            <Col md="8" className="mx-auto mt-4 mt-md-0">
 
                                 <div className="text-center">
                                     <img className="mx-auto" src={logo} alt="Teachers Toolkit Logo" />
