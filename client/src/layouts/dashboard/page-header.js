@@ -1,14 +1,20 @@
 import React from 'react';
-import { Button, Container, } from 'reactstrap';
+import { Button, Container, Row, Col } from 'reactstrap';
 
 
 /* Rendered as functional component */
 const PageHeader = (props) => {
 
     return (
-        <Container fluid className={props.className}>
-            <Button className="collapse-icon h5" onClick={props.toggle} style={{ display: (props.sidebar ? 'none' : 'inline') }}>&#9776;</Button>
-            <h3 className="mt-2 d-inline">Dashboard</h3>
+        <Container fluid className={props.className + ''}>
+            <button className="collapse-icon m-0"
+                style={{
+                    fontSize: '1.5rem',
+                    outline: 'none',
+                    color: props.sidebar ? 'white' : 'orange',
+                    cursor: props.sidebar ? 'default' : 'pointer'
+                }} onClick={props.toggle}>&#9776;</button>
+            <h3 className="d-inline">Dashboard</h3>
         </Container >);
 }
 

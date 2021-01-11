@@ -56,7 +56,7 @@ const Sidebar = (props) => {
                     <BsClipboard className="side-icon text-white h5" />
                 </Col>
                 <Col xs="10">
-                    <Button className="p-0" onClick={toggleClasses}>Classes</Button>
+                    <Button className="p-0" onClick={toggleClasses}><h3>Classes</h3></Button>
                     {/* Child Rows with collapse*/}
                 </Col>
             </Row>

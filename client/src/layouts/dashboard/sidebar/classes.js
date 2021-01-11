@@ -97,7 +97,7 @@ export default class Classes extends React.Component {
                         <Col xs="2"> </Col>
                         <Col xs="8">
                             <NavLink to={"/home/" + classes.id} className="no-overflow p-0 pl-2" style={{ fontSize: '1.3rem' }} activeClassName="border rounded">
-                                {classes.name}
+                                <h4>{classes.name}</h4>
                             </NavLink>
                         </Col>
                         <Col className="p-0" xs="2">
