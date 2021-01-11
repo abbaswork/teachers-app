@@ -138,7 +138,7 @@ export default class Login extends React.Component {
     return (
       <>
         <Form>
-          <FormGroup className="mt-5" row>
+          <FormGroup className="mt-3" row>
             <Label for="emailId" hidden>Email</Label>
             {/* Using Function prototype bind syntax to avoid extra callback vs arrow function callback*/}
             <Input
