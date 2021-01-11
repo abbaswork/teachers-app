@@ -9,6 +9,7 @@ import {
 /* Request Library */
 import axios from 'axios';
 
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -50,12 +51,12 @@ export default class Login extends React.Component {
         if (re.test(String(value).toLowerCase())) {
 
           try { /* If email is valid, check if it already exists */
-            const resp = await axios.get(process.env.REACT_APP_SERVER_URL + `/teachers/exists/${value}`);
+            const resp = await axios.get(process.env.REACT_APP_SERVER_URL + `/teacher/exists/${value}`);
             /* validate */
             this.setState(prevState => ({
               [field]: {
                 ...prevState[field],
-                valid: !resp.data,
+                valid: resp.data === true ? false : true,
                 msg: (resp.data ? 'Email already exist' : '')
               }
             }));
@@ -115,7 +116,7 @@ export default class Login extends React.Component {
 
     try { /* Send a request to sign up the new teacher if all the fields are valid */
       if (this.state.email.valid && this.state.name.valid && this.state.password.valid && this.state.confirm.valid) {
-        await axios.post(process.env.REACT_APP_SERVER_URL + '/teachers/signup', {
+        await axios.post(process.env.REACT_APP_SERVER_URL + '/teacher/signup', {
           email: this.state.email.text,
           password: this.state.password.text,
           name: this.state.name.text,
@@ -134,7 +135,6 @@ export default class Login extends React.Component {
   }
 
   render() {
-
     return (
       <>
         <Form>
@@ -146,7 +146,7 @@ export default class Login extends React.Component {
               value={this.state.email.text} onChange={this.handleChange.bind(this, 'email')} //controlled
               invalid={!this.state.email.valid} required //validation
             />
-            <FormFeedback invalid>{this.state.email.msg}</FormFeedback>
+            <FormFeedback>{this.state.email.msg}</FormFeedback>
           </FormGroup>
 
           <FormGroup className="mb-5" row>
@@ -156,7 +156,7 @@ export default class Login extends React.Component {
               value={this.state.name.text} onChange={this.handleChange.bind(this, 'name')} //controlled
               invalid={!this.state.name.valid} required //validation
             />
-            <FormFeedback invalid>{this.state.name.msg}</FormFeedback>
+            <FormFeedback>{this.state.name.msg}</FormFeedback>
           </FormGroup>
 
           <FormGroup row>
@@ -166,7 +166,7 @@ export default class Login extends React.Component {
               value={this.state.password.text} onChange={this.handleChange.bind(this, 'password')} //controlled
               invalid={!this.state.password.valid} required //validation
             />
-            <FormFeedback invalid>{this.state.password.msg}</FormFeedback>
+            <FormFeedback >{this.state.password.msg}</FormFeedback>
           </FormGroup>
 
           <FormGroup row>
@@ -176,7 +176,7 @@ export default class Login extends React.Component {
               value={this.state.confirm.text} onChange={this.handleChange.bind(this, 'confirm')} //controlled
               invalid={!this.state.confirm.valid} required //validation
             />
-            <FormFeedback invalid>{this.state.confirm.msg}</FormFeedback>
+            <FormFeedback >{this.state.confirm.msg}</FormFeedback>
           </FormGroup>
 
           <FormGroup className="mt-5" row>
