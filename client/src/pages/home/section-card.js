@@ -1,8 +1,10 @@
 import React from "react";
 import dateFormat from "dateformat";
+import axios from 'axios';
 
 /* Component Import */
 import Subtask from './subtask';
+import auth from './../../auth/auth';
 
 /* Ui imports */
 import {
@@ -16,26 +18,13 @@ import { BsFillClockFill, BsCardChecklist, BsFillPlusSquareFill, BsThreeDots } f
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const db = [
-    {
-        id: '123',
-        name: 'Print Worksheets that field has overflow',
-        date: new Date(),
-    },
-    {
-        id: '1234',
-        name: 'Download Video',
-        date: new Date()
-    },
-];
-
 export default class SectionCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
             dropdownOpen: false,
-            collapse: false,
+            collapse: true,
             subTasks: [],
 
             /* Edit fields */
@@ -49,8 +38,18 @@ export default class SectionCard extends React.Component {
     }
 
     /* Internal Event Handlers */
-    componentDidMount() {
-        this.setState({ data: db });
+    async componentDidMount() {
+        if (this.props.task) {
+            try {
+                const resp = await axios.get(process.env.REACT_APP_SERVER_URL + '/subtask/' + this.props.task.id, {
+                    auth: { username: auth.email, password: auth.password }
+                });
+                this.setState({ data: resp.data });
+
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }
 
     toggle = () => this.setState({ dropdownOpen: !this.state.dropdownOpen });
@@ -67,28 +66,47 @@ export default class SectionCard extends React.Component {
     }
 
     /* Subtask Handlers to pass to children  */
-    handleDeleteSubtask = (id) => {
+    handleDeleteSubtask = async (id) => {
+        try { /* Send request to delete subtask and re mount component*/
+            const resp = await axios.delete(process.env.REACT_APP_SERVER_URL + '/subtask/' + id,
+                { auth: { username: auth.email, password: auth.password } });
 
-        console.log(id);
+            this.componentDidMount();
 
-        /* filter array based on id and set as new sections */
-        var rmSubtasks = this.state.data.filter(subtask => subtask.id !== id);
-        this.setState({ data: rmSubtasks });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     /* Handler for updating sections name and color */
-    handleUpdateSubtask = (id, field, value) => {
+    handleUpdateSubtask = async (id, field, value) => {
 
-        /* find index to update, and update state with updated copy */
-        var subtasks = this.state.data;
-        var idIndex = subtasks.findIndex((subtask => subtask.id === id));
-        subtasks[idIndex][field] = value;
-        this.setState({ data: subtasks });
+        try { /* Send request to update task and re mount component*/
+            const resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/subtask/' + id,
+                { field: field, value: value },
+                { auth: { username: auth.email, password: auth.password } });
+
+            this.componentDidMount();
+
+        } catch (e) {
+            console.log(e);
+        }
 
     }
 
-    handleAddSubtask = (value) => {
-        this.setState({ data: [{ id: '26', name: value, date: new Date() }, ...this.state.data] })
+    handleAddSubtask = async (value) => {
+        try { /* Create new task and allow the user to edit it themselves */
+            const resp = await axios.post(process.env.REACT_APP_SERVER_URL + '/subtask/' + this.props.task.id,
+                { name: value, status: false },
+                { auth: { username: auth.email, password: auth.password } });
+
+            this.setState({ addSubtask: false }, function () { this.componentDidMount() });
+
+
+
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     render() {
@@ -155,8 +173,8 @@ export default class SectionCard extends React.Component {
                         </Row>
                     </ListGroupItem>
                     <div className="content" style={{ maxHeight: (this.state.collapse ? '100vh' : '0px'), overflow: (this.state.collapse ? 'visible' : 'hidden') }}>
-                        {this.state.data.map((subTask) =>
-                            <Subtask subTask={subTask} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
+                        {this.state.data.map((subtask) =>
+                            <Subtask subtask={subtask} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
                         )}
                     </div>
                 </ListGroup>
@@ -168,7 +186,7 @@ export default class SectionCard extends React.Component {
                     </Col>
                     <Col xs="10">
                         {this.state.addSubtask &&
-                            <Input className="pl-0" type="text" value={this.state.newSubTask} onChange={(e) => this.setState({ newSubTask: e.target.value })} onKeyPress={(e) => e.key === 'Enter' ? this.setState({ data: [...this.state.data, { id: '123', name: this.state.newSubTask }], addSubtask: false }) : null} />
+                            <Input className="pl-0" type="text" value={this.state.newSubTask} onChange={(e) => this.setState({ newSubTask: e.target.value })} onKeyPress={(e) => e.key === 'Enter' ? this.handleAddSubtask(this.state.newSubTask) : null} />
                         }
                     </Col>
                 </Row>
