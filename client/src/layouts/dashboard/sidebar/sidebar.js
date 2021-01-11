@@ -1,9 +1,10 @@
 /* React Imports */
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 /* Component Imports */
 import Classes from './classes';
+import auth from './../../../auth/auth';
 
 /* UI Imports */
 import { Row, Col, Button } from 'reactstrap';
@@ -20,6 +21,12 @@ const Sidebar = (props) => {
 
     const [classes, setClasses] = useState(true);
     const toggleClasses = () => setClasses(!classes);
+
+    const logout = () => {
+        auth.logout(() => {
+            props.history.push("/login");
+        });
+    }
 
     return (
         /* Style sidebar with background image and orange overlay */
@@ -58,12 +65,11 @@ const Sidebar = (props) => {
                     <button className="collapse-icon text-white"><BsBoxArrowInRight /></button>
                 </Col>
                 <Col xs="10" className="d-flex align-items-center">
-                    <a className="m-0 p-0 ml-3" href="/login">Logout</a>
-                    {/* Child Rows with collapse*/}
+                    <button className="m-0 p-0 ml-3" href="/login" onClick={() => logout()}>Logout</button>
                 </Col>
             </Row>
         </div>
     );
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);

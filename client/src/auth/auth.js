@@ -36,6 +36,8 @@ class Auth {
 
   logout(cb) {
     this.authenticated = false;
+    this.email = null;
+    this.password = null;
     cb();
   }
 

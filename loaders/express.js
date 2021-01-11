@@ -11,6 +11,9 @@ var cors = require('cors');
 //var classroomRouter = require('../routes/classroom');
 var teacherRouter = require('../routes/teacher');
 var classRouter = require('../routes/class');
+var sectionRouter = require('../routes/section');
+var taskRouter = require('../routes/task');
+var subtaskRouter = require('../routes/subtask');
 
 
 /* Export function that initialises express */
@@ -31,6 +34,9 @@ module.exports = function expressLoader(app) {
     //app.use('/', indexRouter);
     app.use('/teacher', teacherRouter);
     app.use('/class', classRouter);
+    app.use('/section', sectionRouter);
+    app.use('/task', taskRouter);
+    app.use('/subtask', subtaskRouter);
 
     /* Serve Built React Client */
     app.use(express.static(path.join(__dirname, './../client/build')));
