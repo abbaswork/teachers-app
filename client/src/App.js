@@ -6,9 +6,6 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import AuthLayoutRoute from './layouts/auth/auth-route';
 import AdminLayoutRoute from './layouts/dashboard/dashboard-route';
 
-/* Testing only */
-import AdminLayout from './layouts/dashboard/dashboard-layout';
-
 /*render dynamic imports as regular components to enable code splitting (only loading what's needed) */
 const Home = lazy(() => import('./pages/home/home'));
 const Login = lazy(() => import('./pages/login'));
@@ -26,10 +23,6 @@ const App = () => (
 
       {/* Switch searches through route children to find one to match with current url */}
       <Switch>
-
-        {/* Testing only 
-        <AdminLayout/>
-        */}
 
         {/* Using defined protectRoute component and login as default */}
         <AdminLayoutRoute path="/home" component={Home} />

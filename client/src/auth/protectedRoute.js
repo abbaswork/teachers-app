@@ -1,11 +1,19 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import auth from "./auth";
+import { useCookies } from 'react-cookie';
 
 /* Export secure route functional component */
 export const ProtectedRoute =
     /* Destructure component from passed argument and pass rest containing the rest */
     ({ component: Component, ...rest }) => {
+
+        /* Load cookies for auth */
+        const [cookies] = useCookies(['auth']);
+        if (cookies.auth) {
+            auth.checkSession(cookies.auth);
+        }
+
         return (
             /* Using Route API, pass rest of arguments as props to the component */
             <Route {...rest} render={props => {

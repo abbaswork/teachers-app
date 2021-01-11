@@ -47,7 +47,7 @@ export default class Home extends React.Component {
   handleDeleteSection = async (id) => {
 
     try { /* Send request to update section and re mount component*/
-      const resp = await axios.delete(process.env.REACT_APP_SERVER_URL + '/section/' + id,
+      await axios.delete(process.env.REACT_APP_SERVER_URL + '/section/' + id,
         { auth: { username: auth.email, password: auth.password } });
 
       this.componentDidMount();
@@ -62,7 +62,7 @@ export default class Home extends React.Component {
   handleUpdateSection = async (id, field, value) => {
 
     try { /* Send request to update section and re mount component*/
-      const resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/section/' + id,
+      await axios.put(process.env.REACT_APP_SERVER_URL + '/section/' + id,
         { field: field, value: value },
         { auth: { username: auth.email, password: auth.password } });
 
@@ -77,7 +77,7 @@ export default class Home extends React.Component {
   handleCreateSection = async (value) => {
 
     try { /* Logic: Send request to server to add section and remount component */
-      const resp = await axios.post(process.env.REACT_APP_SERVER_URL + '/section/' + this.state.id,
+      await axios.post(process.env.REACT_APP_SERVER_URL + '/section/' + this.state.id,
         { name: value, color: 'orange' },
         { auth: { username: auth.email, password: auth.password } });
 
@@ -90,8 +90,6 @@ export default class Home extends React.Component {
   }
 
   render() {
-
-    console.log(this.state);
 
     return (
       <>

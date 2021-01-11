@@ -7,7 +7,7 @@ import {
     Col, Row,
     Input,
 } from 'reactstrap';
-import { BsFillTrashFill, BsPencil, BsFillPlusSquareFill, BsFillXSquareFill } from "react-icons/bs";
+import { BsFillTrashFill, BsFillPlusSquareFill, BsFillXSquareFill } from "react-icons/bs";
 
 import auth from "./../../../auth/auth";
 
@@ -45,7 +45,7 @@ export default class Classes extends React.Component {
         if (((this.state.addRow && e === undefined) || e.key === 'Enter') && this.state.newRow !== '') {
 
             try { /* Logic: Send request to server to add class and remount component */
-                const resp = await axios.post(process.env.REACT_APP_SERVER_URL + '/class',
+                await axios.post(process.env.REACT_APP_SERVER_URL + '/class',
                     {
                         name: this.state.newRow
                     }, {
@@ -77,7 +77,7 @@ export default class Classes extends React.Component {
     handleDelete = async (id) => {
 
         try { /* try to send request to delete current class and remount classes */
-            const resp = await axios.delete(process.env.REACT_APP_SERVER_URL + '/class/' + id, {
+            await axios.delete(process.env.REACT_APP_SERVER_URL + '/class/' + id, {
                 auth: {
                     username: auth.email,
                     password: auth.password

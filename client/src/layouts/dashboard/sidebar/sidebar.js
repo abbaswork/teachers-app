@@ -1,6 +1,7 @@
 /* React Imports */
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 /* Component Imports */
 import Classes from './classes';
@@ -8,7 +9,7 @@ import auth from './../../../auth/auth';
 
 /* UI Imports */
 import { Row, Col, Button } from 'reactstrap';
-import { BsClipboard, BsFillTrashFill, BsPencil, BsFillPlusSquareFill, BsBoxArrowInRight } from "react-icons/bs";
+import { BsClipboard, BsBoxArrowInRight } from "react-icons/bs";
 import heroImage from './../../../assets/images/hero.jpg';
 
 /* Rendered as functional component */
@@ -21,9 +22,11 @@ const Sidebar = (props) => {
 
     const [classes, setClasses] = useState(true);
     const toggleClasses = () => setClasses(!classes);
+    const [removeCookie] = useCookies(['cookie-name']);
 
     const logout = () => {
         auth.logout(() => {
+            removeCookie('auth');
             props.history.push("/login");
         });
     }

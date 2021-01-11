@@ -1,12 +1,14 @@
 import React from "react";
 import auth from "./../auth/auth";
+import { withCookies } from 'react-cookie';
+
 
 /* Ui imports */
 import {
   Form, FormGroup, Label, Input, Button //Forms
 } from 'reactstrap';
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,9 +25,11 @@ export default class Login extends React.Component {
   handleLogin = (e) => {
 
     e.preventDefault();
+    const { cookies } = this.props;
 
-    /* Auth login takes callback, provide function to redirect when authenticated */
+    /* Auth login takes callback, provide function to redirect when authenticated + save login cookies */
     auth.login(this.state.email, this.state.password, () => {
+      cookies.set('auth', auth, { path: '/' });
       this.props.history.push("/home");
     });
   }
@@ -48,7 +52,7 @@ export default class Login extends React.Component {
             <Label for="passwordId" hidden>Password</Label>
             <Input
               type="password" value={this.state.password} name="password" id="passwordId" className="rounded-0" placeholder="Password" bsSize="lg"
-              value={this.state.password} onChange={this.handleChange.bind(this, 'password')} //controlled
+              onChange={this.handleChange.bind(this, 'password')} //controlled
             />
           </FormGroup>
 
@@ -65,3 +69,5 @@ export default class Login extends React.Component {
     );
   }
 }
+
+export default withCookies(Login);

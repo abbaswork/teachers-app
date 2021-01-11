@@ -13,25 +13,6 @@ import {
 import { BsThreeDots } from "react-icons/bs";
 import { TwitterPicker } from 'react-color';
 
-/* Example data to request from server api */
-const db = [
-    {
-        id: '123',
-        name: 'Bear Hunt',
-        date: new Date(),
-    },
-    {
-        id: '1234',
-        name: 'Arts & Crafts',
-        date: new Date()
-    },
-    {
-        id: '12345',
-        name: 'Phonics ABCs',
-        date: new Date()
-    }
-];
-
 export default class Section extends React.Component {
     constructor(props) {
         super(props);
@@ -85,7 +66,7 @@ export default class Section extends React.Component {
     handleCreateTask = async () => {
 
         try { /* Create new task and allow the user to edit it themselves */
-            const resp = await axios.post(process.env.REACT_APP_SERVER_URL + '/task/' + this.props.section.id,
+             await axios.post(process.env.REACT_APP_SERVER_URL + '/task/' + this.props.section.id,
                 { name: 'New Task', date: new Date() },
                 { auth: { username: auth.email, password: auth.password } });
 
@@ -106,7 +87,7 @@ export default class Section extends React.Component {
         this.setState({ data: tasks }); */
 
         try { /* Send request to update task and re mount component*/
-            const resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/task/' + id,
+            await axios.put(process.env.REACT_APP_SERVER_URL + '/task/' + id,
                 { field: field, value: value },
                 { auth: { username: auth.email, password: auth.password } });
 
@@ -120,7 +101,7 @@ export default class Section extends React.Component {
     handleDeleteTask = async (id) => {
 
         try { /* Send request to delete task and re mount component*/
-            const resp = await axios.delete(process.env.REACT_APP_SERVER_URL + '/task/' + id,
+            await axios.delete(process.env.REACT_APP_SERVER_URL + '/task/' + id,
                 { auth: { username: auth.email, password: auth.password } });
 
             this.componentDidMount();
@@ -187,7 +168,7 @@ export default class Section extends React.Component {
 
                         {/* Map section tasks */}
                         {this.state.data.map((task) =>
-                            <SectionCard className="mt-4 shadow" task={task} handleUpdateTask={this.handleUpdateTask} handleDeleteTask={this.handleDeleteTask} />
+                            <SectionCard key={task.id} className="mt-4 shadow" task={task} handleUpdateTask={this.handleUpdateTask} handleDeleteTask={this.handleDeleteTask} />
                         )}
                     </div>
                 }

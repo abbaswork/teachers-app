@@ -9,6 +9,13 @@ class Auth {
     this.authenticated = false;
   }
 
+  /* Passed cookies in current session, check if valid */
+  checkSession(session) {
+    this.email = session.email || '';
+    this.password = session.password || '';
+    this.authenticated = session.authenticated || '';
+  }
+
   /* Login/Logout functions with callbacks */
   async login(email, password, cb) {
 

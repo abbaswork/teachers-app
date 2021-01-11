@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
 /* Ui imports */
-import { Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import Sidebar from './sidebar/sidebar';
-import Home from '../../pages/home/home';
 import PageHeader from "./page-header";
 
 export default function DashboardLayout(props) {

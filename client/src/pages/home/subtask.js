@@ -34,7 +34,7 @@ export default class SubTask extends React.Component {
             <Row>
                 <Col xs="2">
                     <label className="container">
-                        <input className="custom-checkbox" type="checkbox" checked={this.props.subtask.status} onClick={() => this.props.handleUpdateSubtask(this.props.subtask.id, 'status', !this.props.subtask.status)} />
+                        <input className="custom-checkbox" type="checkbox" checked={this.props.subtask.status} onChange={() => this.props.handleUpdateSubtask(this.props.subtask.id, 'status', !this.props.subtask.status)} />
                         <span className="checkmark" />
                     </label>
                 </Col>

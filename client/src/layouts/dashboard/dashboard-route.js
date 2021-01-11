@@ -1,6 +1,5 @@
 /* React + Route API */
 import React from 'react';
-import { Route } from 'react-router-dom';
 
 /* Auth layout */
 import { ProtectedRoute } from '../../auth/protectedRoute';

@@ -68,7 +68,7 @@ export default class SectionCard extends React.Component {
     /* Subtask Handlers to pass to children  */
     handleDeleteSubtask = async (id) => {
         try { /* Send request to delete subtask and re mount component*/
-            const resp = await axios.delete(process.env.REACT_APP_SERVER_URL + '/subtask/' + id,
+            await axios.delete(process.env.REACT_APP_SERVER_URL + '/subtask/' + id,
                 { auth: { username: auth.email, password: auth.password } });
 
             this.componentDidMount();
@@ -82,7 +82,7 @@ export default class SectionCard extends React.Component {
     handleUpdateSubtask = async (id, field, value) => {
 
         try { /* Send request to update task and re mount component*/
-            const resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/subtask/' + id,
+            await axios.put(process.env.REACT_APP_SERVER_URL + '/subtask/' + id,
                 { field: field, value: value },
                 { auth: { username: auth.email, password: auth.password } });
 
@@ -96,7 +96,7 @@ export default class SectionCard extends React.Component {
 
     handleAddSubtask = async (value) => {
         try { /* Create new task and allow the user to edit it themselves */
-            const resp = await axios.post(process.env.REACT_APP_SERVER_URL + '/subtask/' + this.props.task.id,
+            await axios.post(process.env.REACT_APP_SERVER_URL + '/subtask/' + this.props.task.id,
                 { name: value, status: false },
                 { auth: { username: auth.email, password: auth.password } });
 
@@ -174,7 +174,7 @@ export default class SectionCard extends React.Component {
                     </ListGroupItem>
                     <div className="content" style={{ maxHeight: (this.state.collapse ? '100vh' : '0px'), overflow: (this.state.collapse ? 'visible' : 'hidden') }}>
                         {this.state.data.map((subtask) =>
-                            <Subtask subtask={subtask} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
+                            <Subtask key={subtask.id} subtask={subtask} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
                         )}
                     </div>
                 </ListGroup>
