@@ -1,3 +1,9 @@
+/* Copyright (C) Abbas Khan - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Abbas Khan <abbaskhanwork@gmail.com>, Jan 2021
+ */
+
 /* import loaders + express */
 const loaders = require('./loaders/index');
 const express = require('express');

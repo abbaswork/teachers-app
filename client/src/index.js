@@ -1,3 +1,9 @@
+/* Copyright (C) Abbas Khan - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Abbas Khan <abbaskhanwork@gmail.com>, Jan 2021
+ */
+
 /* React + App*/
 import React from 'react';
 import ReactDOM from 'react-dom';
