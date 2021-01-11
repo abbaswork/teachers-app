@@ -26,12 +26,12 @@ export default function AuthLayout(props) {
                             <Col md="8" className="mx-auto mt-5 mt-md-0">
 
                                 {props.children.props.location.pathname === '/signup' &&
-                                    <div className="text-center mt-5 mt-md-0">
+                                    <div className="text-center mt-10">
                                         <img className="mx-auto" src={logo} alt="Teachers Toolkit Logo" />
                                     </div>
                                 }
 
-                                {props.children.props.location.pathname === '/login' &&
+                                {props.children.props.location.pathname !== '/signup' &&
                                     <div className="text-center">
                                         <img className="mx-auto" src={logo} alt="Teachers Toolkit Logo" />
                                     </div>

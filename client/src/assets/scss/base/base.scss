@@ -19,6 +19,13 @@ body,
   background-color: orange;
 }
 
-.bg-none{
+.bg-none {
   background: none;
+}
+
+.mt-10 {
+  margin-top: 10rem;
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    margin-top: 15rem;
+  }
 }
