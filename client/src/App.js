@@ -32,7 +32,7 @@ const App = () => (
         */}
 
         {/* Using defined protectRoute component and login as default */}
-        <AdminLayoutRoute exact path="/home" component={Home} />
+        <AdminLayoutRoute path="/home" component={Home} />
         <AuthLayoutRoute exact path="/signup" component={Signup} />
         <AuthLayoutRoute path="/" component={Login} />
 

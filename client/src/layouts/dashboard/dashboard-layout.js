@@ -14,7 +14,7 @@ export default function DashboardLayout(props) {
 
     /* Adjust sidebar width based on view port */
     const setVw = (Number(window.innerHeight) > 900 ? '15vw' : '100vw');
-
+    
     return (
         <Container className="h-100" fluid>
             <Sidebar sidebar={sidebar} toggle={toggle} setVw={setVw} />

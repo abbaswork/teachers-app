@@ -130,7 +130,7 @@ export default class SectionCard extends React.Component {
 
                                 {this.state.editDate ?
                                     <DatePicker
-                                        selected={this.props.task.date}
+                                        selected={new Date(this.props.task.date)}
                                         onChange={(e) => this.handleUpdate('date', e, 'editDate')}
                                         timeInputLabel="Time:"
                                         dateFormat="MM/dd/yyyy h:mm aa"

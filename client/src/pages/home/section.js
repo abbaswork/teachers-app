@@ -1,7 +1,9 @@
 import React from "react";
+import axios from 'axios';
 
 /* Component Imports */
 import SectionCard from './section-card';
+import auth from './../../auth/auth';
 
 /* Ui imports */
 import {
@@ -52,8 +54,18 @@ export default class Section extends React.Component {
 
 
     /* Internal Section Event Handlers*/
-    componentDidMount() {
-        this.setState({ data: db });
+    async componentDidMount() {
+        if (this.props.section) {
+            try {
+                const resp = await axios.get(process.env.REACT_APP_SERVER_URL + '/task/' + this.props.section.id, {
+                    auth: { username: auth.email, password: auth.password }
+                });
+                this.setState({ data: resp.data });
+
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }
 
     toggle = () => this.setState({ dropdownOpen: !this.state.dropdownOpen });
@@ -70,28 +82,52 @@ export default class Section extends React.Component {
 
 
     /* Event Handlers for to pass to children components */
-    handleCreateTask = () => {
+    handleCreateTask = async () => {
 
-        /* Create new task and allow the user to edit it themselves */
-        this.setState({ data: [{ id: '2', name: 'New Task', date: new Date() }, ...this.state.data] })
+        try { /* Create new task and allow the user to edit it themselves */
+            const resp = await axios.post(process.env.REACT_APP_SERVER_URL + '/task/' + this.props.section.id,
+                { name: 'New Task', date: new Date() },
+                { auth: { username: auth.email, password: auth.password } });
+
+            this.componentDidMount();
+
+        } catch (e) {
+            console.log(e);
+        }
 
     }
 
-    handleUpdateTask = (id, field, value) => {
+    handleUpdateTask = async (id, field, value) => {
 
-        /* find index to update, and update state with updated copy */
+        /* find index to update, and update state with updated copy 
         var tasks = this.state.data;
         var idIndex = tasks.findIndex((task => task.id === id));
         tasks[idIndex][field] = value;
-        this.setState({ data: tasks });
+        this.setState({ data: tasks }); */
+
+        try { /* Send request to update task and re mount component*/
+            const resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/task/' + id,
+                { field: field, value: value },
+                { auth: { username: auth.email, password: auth.password } });
+
+            this.componentDidMount();
+
+        } catch (e) {
+            console.log(e);
+        }
     }
 
-    handleDeleteTask = (id) => {
+    handleDeleteTask = async (id) => {
 
-        /* find index to delete */
-        console.log('passed id to delete: ', id);
-        var rmTask = this.state.data.filter(task => task.id !== id);
-        this.setState({ data: rmTask });
+        try { /* Send request to delete task and re mount component*/
+            const resp = await axios.delete(process.env.REACT_APP_SERVER_URL + '/task/' + id,
+                { auth: { username: auth.email, password: auth.password } });
+
+            this.componentDidMount();
+
+        } catch (e) {
+            console.log(e);
+        }
     }
 
 

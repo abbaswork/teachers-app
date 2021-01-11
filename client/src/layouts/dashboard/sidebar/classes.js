@@ -11,22 +11,6 @@ import { BsFillTrashFill, BsPencil, BsFillPlusSquareFill, BsFillXSquareFill } fr
 
 import auth from "./../../../auth/auth";
 
-/* Example Data, that would be retrieved from server API */
-const db = [
-    {
-        id: '123',
-        name: 'English 1,2,3,4,5,6,7,8,9'
-    },
-    {
-        id: '1234',
-        name: 'English 2'
-    },
-    {
-        id: '12345',
-        name: 'Phonics 2'
-    }
-];
-
 /* Component is responsible for returning a list of classes with the ability to edit or delete a class */
 export default class Classes extends React.Component {
     constructor(props) {
@@ -41,8 +25,6 @@ export default class Classes extends React.Component {
 
     /* Retrieve Classes from Server API */
     async componentDidMount() {
-
-        //this.setState({ data: db });
         try {
             const resp = await axios.get(process.env.REACT_APP_SERVER_URL + '/class', {
                 auth: {
@@ -114,7 +96,7 @@ export default class Classes extends React.Component {
                     <Row key={classes.id}>
                         <Col xs="2"> </Col>
                         <Col xs="8">
-                            <NavLink to="/about" className="no-overflow p-0" style={{ fontSize: '1.3rem' }}>
+                            <NavLink to={"/home/" + classes.id} className="no-overflow p-0 pl-2" style={{ fontSize: '1.3rem' }} activeClassName="border rounded">
                                 {classes.name}
                             </NavLink>
                         </Col>
