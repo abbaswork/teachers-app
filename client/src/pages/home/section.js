@@ -10,7 +10,7 @@ import {
     Container, Row, Col,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input
 } from 'reactstrap';
-import { BsThreeDots } from "react-icons/bs";
+import { BsThreeDots, BsFilePlus } from "react-icons/bs";
 import { TwitterPicker } from 'react-color';
 
 export default class Section extends React.Component {
@@ -66,7 +66,7 @@ export default class Section extends React.Component {
     handleCreateTask = async () => {
 
         try { /* Create new task and allow the user to edit it themselves */
-             await axios.post(process.env.REACT_APP_SERVER_URL + '/task/' + this.props.section.id,
+            await axios.post(process.env.REACT_APP_SERVER_URL + '/task/' + this.props.section.id,
                 { name: 'New Task', date: new Date() },
                 { auth: { username: auth.email, password: auth.password } });
 
@@ -123,7 +123,7 @@ export default class Section extends React.Component {
 
                         {/* Header Row with dropdown settings for section */}
                         <Row className="mb-5">
-                            <Col xs="10">
+                            <Col xs="8" md="9">
                                 <h4 className="d-inline">
                                     <span className="badge text-white rounded-0" style={{ backgroundColor: this.props.section.color }}>
                                         {/* If updating name, use this field to add name instead */}
@@ -149,7 +149,10 @@ export default class Section extends React.Component {
                             </Col>
 
                             {/* Section Options with dropdown */}
-                            <Col className="text-right" xs="2">
+                            <Col xs="2" className="text-right">
+                                <BsFilePlus style={{ color: 'orange', fontSize: '1.5rem', cursor: 'pointer' }} onClick={() => this.handleCreateTask()} />
+                            </Col>
+                            <Col className="text-right" xs="1">
                                 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                                     <DropdownToggle tag="div" style={{ cursor: 'pointer' }}>
                                         <BsThreeDots />
@@ -160,7 +163,6 @@ export default class Section extends React.Component {
                                         <DropdownItem onClick={() => this.setState({ updateName: true })}>Rename Section</DropdownItem>
                                         <DropdownItem onClick={() => this.setState({ pickColor: !this.state.pickColor })}>Pick Color</DropdownItem>
                                         <DropdownItem divider />
-                                        <DropdownItem onClick={() => this.handleCreateTask()}>Create New Task</DropdownItem>
                                     </DropdownMenu>
                                 </Dropdown>
                             </Col>
