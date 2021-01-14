@@ -1,4 +1,7 @@
 var SequelizeBot = require('./../models/db');
+var SectionServices = require('./section');
+var TaskServices = require('./task');
+var SubtaskServices = require('./subtask');
 
 class ClassServices {
 
@@ -42,6 +45,16 @@ class ClassServices {
             classroom_id: classroomId,
             name: name
         });
+
+        /* Create Predefined Sections in the new class */
+        const sec1 = await SectionServices.createSection(newClass.id, 'Activities', 'orange');
+        await SectionServices.createSection(newClass.id, 'Evulations', 'orange');
+        await SectionServices.createSection(newClass.id, 'Meetings', 'orange');
+
+        /* Create an example task with an example subtask in the first section */
+        const task1 = await TaskServices.createTask(sec1.id, 'Bear Hunt', new Date());
+        await SubtaskServices.createSubtask(task1.id, 'Download Bear Video', false);
+
 
         return newClass;
     };
