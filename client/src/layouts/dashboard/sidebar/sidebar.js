@@ -42,10 +42,10 @@ const Sidebar = (props) => {
         }}>
             {/* First Row includes toggle button for sidebar and Title */}
             <Row className="border-divider pb-1">
-                <Col xs="2">
+                <Col xs="2" md="3" >
                     <button className="collapse-icon text-white m-0" onClick={props.toggle} >&#9776;</button>
                 </Col>
-                <Col xs="10" className="d-flex align-items-center">
+                <Col xs="10" md="9" className="d-flex align-items-center">
                     <h3 className="m-0">Classroom</h3>
                 </Col>
             </Row>
