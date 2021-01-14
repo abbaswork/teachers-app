@@ -48,13 +48,20 @@ class ClassServices {
 
         /* Create Predefined Sections in the new class */
         const sec1 = await SectionServices.createSection(newClass.id, 'Activities', 'orange');
-        await SectionServices.createSection(newClass.id, 'Evulations', 'green');
+        await SectionServices.createSection(newClass.id, 'Evaluations', 'green');
         await SectionServices.createSection(newClass.id, 'Meetings', 'blue');
 
-        /* Create an example task with an example subtask in the first section */
-        const task1 = await TaskServices.createTask(sec1.id, 'Bear Hunt', new Date());
-        await SubtaskServices.createSubtask(task1.id, 'Download Bear Video', false);
+        /* Create an example task with an example subtask in the first section
+        Only if this is the first class created for the account */
+        const classes = await SequelizeBot.Class.findAll({
+            where: { classroom_id: classroomId },
+            order: [['created_at', 'ASC']]
+        });
 
+        if (classes.length < 1) {
+            const task1 = await TaskServices.createTask(sec1.id, 'Bear Hunt', new Date());
+            await SubtaskServices.createSubtask(task1.id, 'Download Bear Video', false);
+        }
 
         return newClass;
     };
