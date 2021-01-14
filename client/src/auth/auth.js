@@ -33,12 +33,13 @@ class Auth {
       });
 
       this.authenticated = true;
+      cb();
 
     } catch (error) {
       console.log(error);
+      cb(error, 'There was an incorrect email or password');
     }
 
-    cb();
   }
 
   logout(cb) {

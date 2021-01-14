@@ -2,7 +2,6 @@ import React from "react";
 import auth from "./../auth/auth";
 import { withCookies } from 'react-cookie';
 
-
 /* Ui imports */
 import {
   Form, FormGroup, Label, Input, Button //Forms
@@ -13,7 +12,9 @@ class Login extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      error: false,
+      errorMsg: ''
     }
   }
 
@@ -22,22 +23,29 @@ class Login extends React.Component {
     this.setState({ [field]: e.target.value })
   }
 
-  handleLogin = (e) => {
+  handleLogin = async (e) => {
 
     e.preventDefault();
     const { cookies } = this.props;
 
     /* Auth login takes callback, provide function to redirect when authenticated + save login cookies */
-    auth.login(this.state.email, this.state.password, () => {
-      cookies.set('auth', auth, { path: '/' });
-      this.props.history.push("/home");
+    var valid = await auth.login(this.state.email, this.state.password, (error, errorMsg) => {
+      if (error) {
+        this.setState({ error: true, errorMsg: errorMsg })
+      } else {
+        cookies.set('auth', auth, { path: '/' });
+        this.props.history.push("/home");
+      }
     });
+
   }
 
   render() {
-
     return (
       <>
+        <div className="alert" hidden={!this.state.error} style={{ cursor: 'pointer' }} onClick={() => this.setState({ error: false, errorMsg: '' })}>
+          <h5>{this.state.errorMsg}</h5>
+        </div>
 
         <Form>
           <FormGroup className="mt-5 mb-3" row>
