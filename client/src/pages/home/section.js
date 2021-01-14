@@ -150,7 +150,7 @@ export default class Section extends React.Component {
 
                             {/* Section Options with dropdown */}
                             <Col xs="2" className="text-right">
-                                <BsFilePlus style={{ color: 'orange', fontSize: '1.5rem', cursor: 'pointer' }} onClick={() => this.handleCreateTask()} />
+                                <BsFilePlus style={{ color: this.props.section.color, fontSize: '1.5rem', cursor: 'pointer' }} onClick={() => this.handleCreateTask()} />
                             </Col>
                             <Col className="text-right" xs="1">
                                 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -170,7 +170,7 @@ export default class Section extends React.Component {
 
                         {/* Map section tasks */}
                         {this.state.data.map((task) =>
-                            <SectionCard key={task.id} className="mt-4 shadow" task={task} handleUpdateTask={this.handleUpdateTask} handleDeleteTask={this.handleDeleteTask} />
+                            <SectionCard key={task.id} className="mt-4 shadow" task={task} color={this.props.section.color} handleUpdateTask={this.handleUpdateTask} handleDeleteTask={this.handleDeleteTask} />
                         )}
                     </div>
                 }

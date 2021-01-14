@@ -142,9 +142,9 @@ export default class SectionCard extends React.Component {
                     <ListGroupItem tag="div" className="pl-0" style={{ outline: 'none' }} action>
                         <Row>
                             <Col xs="1">
-                                <BsFillClockFill className="text-orange" />
+                                <BsFillClockFill style={{ color: this.props.color }} />
                             </Col>
-                            <Col className="" xs="10">
+                            <Col xs="10">
                                 <DatePicker
                                     selected={new Date(this.props.task.date)}
                                     onChange={(e) => this.handleUpdate('date', e, 'editDate')}
@@ -173,7 +173,7 @@ export default class SectionCard extends React.Component {
                     <ListGroupItem tag="button" className="pl-0 border-bottom-0" onClick={this.collapse} action>
                         <Row>
                             <Col xs="1">
-                                <BsCardChecklist className="text-orange" />
+                                <BsCardChecklist style={{ color: this.props.color }} />
                             </Col>
                             <Col xs="10">
                                 <CardText className="">Sub Tasks</CardText>
@@ -182,13 +182,13 @@ export default class SectionCard extends React.Component {
                     </ListGroupItem>
                     <div className="content" style={{ maxHeight: (this.state.collapse ? '100vh' : '0px'), overflow: (this.state.collapse ? 'visible' : 'hidden') }}>
                         {this.state.data.map((subtask) =>
-                            <Subtask key={subtask.id} subtask={subtask} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
+                            <Subtask key={subtask.id} subtask={subtask} color={this.props.color} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
                         )}
 
                         {/* Add more Subtasks */}
                         <Row>
                             <Col xs="2">
-                                <BsFillPlusSquareFill className="text-orange" style={{ cursor: 'pointer' }} onClick={() => this.setState({ addSubtask: true })/*this.handleAddSubtask.bind(this, 'new Subtask')*/} />
+                                <BsFillPlusSquareFill style={{ cursor: 'pointer', color: this.props.color }} onClick={() => this.setState({ addSubtask: true })/*this.handleAddSubtask.bind(this, 'new Subtask')*/} />
                             </Col>
                             <Col xs="10">
                                 {this.state.addSubtask &&
