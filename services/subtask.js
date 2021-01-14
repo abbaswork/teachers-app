@@ -15,7 +15,8 @@ class SubtaskServices {
 
         /* Update given class for field with provided value */
         const subtasks = await SequelizeBot.Subtask.findAll({
-            where: { task_id: taskId }
+            where: { task_id: taskId },
+            order: [['created_at', 'ASC']]
         });
 
         return subtasks;

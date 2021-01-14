@@ -15,7 +15,8 @@ class SectionServices {
 
         /* Update given class for field with provided value */
         const sections = await SequelizeBot.Section.findAll({
-            where: { class_id: classId }
+            where: { class_id: classId },
+            order: [['created_at', 'ASC']]
         });
 
         return sections;

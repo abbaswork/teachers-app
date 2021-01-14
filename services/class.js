@@ -15,7 +15,8 @@ class ClassServices {
 
         /* Update given class for field with provided value */
         const classes = await SequelizeBot.Class.findAll({
-            where: { classroom_id: classroomId }
+            where: { classroom_id: classroomId },
+            order: [['created_at', 'ASC']]
         });
 
 

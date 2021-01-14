@@ -15,7 +15,8 @@ class TaskServices {
 
         /* Update given class for field with provided value */
         const tasks = await SequelizeBot.Task.findAll({
-            where: { section_id: sectionId }
+            where: { section_id: sectionId },
+            order: [['created_at', 'ASC']]
         });
 
         return tasks;

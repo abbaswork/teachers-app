@@ -58,10 +58,8 @@ export default class SectionCard extends React.Component {
 
     handleUpdate = (field, value, toggle) => {
 
-        console.log(field, value, toggle);
-
         /* Turn off new field and update through passed function handler */
-        this.setState({ [toggle]: false }, function () { console.log('callback: ', this.state) });
+        this.setState({ [toggle]: false });
         this.props.handleUpdateTask(this.props.task.id, field, value);
     }
 
@@ -110,7 +108,6 @@ export default class SectionCard extends React.Component {
     }
 
     render() {
-
         return (
             <Card className={this.props.className} body>
                 <Row className="mb-2">
@@ -145,19 +142,27 @@ export default class SectionCard extends React.Component {
                                 <BsFillClockFill className="text-orange" />
                             </Col>
                             <Col className="" xs="10">
+                                <DatePicker
+                                    selected={new Date(this.props.task.date)}
+                                    onChange={(e) => this.handleUpdate('date', e, 'editDate')}
+                                    timeInputLabel="Time:"
+                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                    showTimeInput
+                                    shouldCloseOnSelect={false}
+                                />
 
-                                {this.state.editDate ?
+                                { /*this.state.editDate ?
                                     <DatePicker
                                         selected={new Date(this.props.task.date)}
                                         onChange={(e) => this.handleUpdate('date', e, 'editDate')}
                                         timeInputLabel="Time:"
-                                        dateFormat="MM/dd/yyyy h:mm aa"
+                                        dateFormat="MMMM d, yyyy h:mm aa"
                                         showTimeInput
                                     />
                                     : <CardText onClick={() => this.setState({ editDate: true })} style={{ cursor: 'pointer' }} >
                                         {dateFormat(this.props.task.date, "	ddd mmm dd yyyy, HH:MM TT")}
                                     </CardText>
-                                }
+                                */}
                             </Col>
                         </Row>
                     </ListGroupItem>
