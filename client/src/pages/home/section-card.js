@@ -1,5 +1,5 @@
 import React from "react";
-import dateFormat from "dateformat";
+//import dateFormat from "dateformat";
 import axios from 'axios';
 
 /* Component Import */
@@ -108,6 +108,9 @@ export default class SectionCard extends React.Component {
     }
 
     render() {
+
+
+
         return (
             <Card className={this.props.className} body>
                 <Row className="mb-2">

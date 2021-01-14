@@ -29,7 +29,7 @@ class Login extends React.Component {
     const { cookies } = this.props;
 
     /* Auth login takes callback, provide function to redirect when authenticated + save login cookies */
-    var valid = await auth.login(this.state.email, this.state.password, (error, errorMsg) => {
+    await auth.login(this.state.email, this.state.password, (error, errorMsg) => {
       if (error) {
         this.setState({ error: true, errorMsg: errorMsg })
       } else {
