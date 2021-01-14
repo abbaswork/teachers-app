@@ -12,7 +12,7 @@ export default function DashboardLayout(props) {
     const toggle = () => setSidebar(prevState => !prevState);
 
     /* Adjust sidebar width based on view port */
-    const setVw = (Number(window.innerHeight) > 900 ? '15vw' : '100vw');
+    const setVw = (Number(window.innerWidth) > 480 ? '15vw' : '100vw');
     
     return (
         <Container className="h-100" fluid>
