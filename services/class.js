@@ -48,8 +48,8 @@ class ClassServices {
 
         /* Create Predefined Sections in the new class */
         const sec1 = await SectionServices.createSection(newClass.id, 'Activities', 'orange');
-        await SectionServices.createSection(newClass.id, 'Evulations', 'orange');
-        await SectionServices.createSection(newClass.id, 'Meetings', 'orange');
+        await SectionServices.createSection(newClass.id, 'Evulations', 'green');
+        await SectionServices.createSection(newClass.id, 'Meetings', 'blue');
 
         /* Create an example task with an example subtask in the first section */
         const task1 = await TaskServices.createTask(sec1.id, 'Bear Hunt', new Date());

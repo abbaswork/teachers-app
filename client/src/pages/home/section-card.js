@@ -184,21 +184,21 @@ export default class SectionCard extends React.Component {
                         {this.state.data.map((subtask) =>
                             <Subtask key={subtask.id} subtask={subtask} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
                         )}
+
+                        {/* Add more Subtasks */}
+                        <Row>
+                            <Col xs="2">
+                                <BsFillPlusSquareFill className="text-orange" style={{ cursor: 'pointer' }} onClick={() => this.setState({ addSubtask: true })/*this.handleAddSubtask.bind(this, 'new Subtask')*/} />
+                            </Col>
+                            <Col xs="10">
+                                {this.state.addSubtask &&
+                                    <Input className="pl-0" type="text" value={this.state.newSubTask} onChange={(e) => this.setState({ newSubTask: e.target.value })} onKeyPress={(e) => e.key === 'Enter' ? this.handleAddSubtask(this.state.newSubTask) : null} />
+                                }
+                            </Col>
+                        </Row>
                     </div>
+
                 </ListGroup>
-
-                {/* Add more Subtasks */}
-                <Row>
-                    <Col xs="1">
-                        <BsFillPlusSquareFill className="text-orange" style={{ cursor: 'pointer' }} onClick={() => this.setState({ addSubtask: true })/*this.handleAddSubtask.bind(this, 'new Subtask')*/} />
-                    </Col>
-                    <Col xs="10">
-                        {this.state.addSubtask &&
-                            <Input className="pl-0" type="text" value={this.state.newSubTask} onChange={(e) => this.setState({ newSubTask: e.target.value })} onKeyPress={(e) => e.key === 'Enter' ? this.handleAddSubtask(this.state.newSubTask) : null} />
-                        }
-                    </Col>
-                </Row>
-
             </Card>
         );
     }

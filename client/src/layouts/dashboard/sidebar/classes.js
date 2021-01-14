@@ -90,6 +90,9 @@ export default class Classes extends React.Component {
     }
 
     render() {
+
+        console.log('props: ', this.props);
+
         return (
             <>
                 {this.state.data.map((classes) =>

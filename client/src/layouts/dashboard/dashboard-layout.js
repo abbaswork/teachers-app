@@ -7,13 +7,13 @@ import PageHeader from "./page-header";
 
 export default function DashboardLayout(props) {
 
-    /* Hook that controls responsive sidebar toggle */
-    const [sidebar, setSidebar] = useState(true);
+    /* Hook that controls responsive sidebar toggle, default for mobile is off and true for desktop */
+    const [sidebar, setSidebar] = useState(Number(window.innerWidth) > 480 ? true : false);
     const toggle = () => setSidebar(prevState => !prevState);
 
     /* Adjust sidebar width based on view port */
     const setVw = (Number(window.innerWidth) > 480 ? '15vw' : '100vw');
-    
+
     return (
         <Container className="h-100" fluid>
             <Sidebar sidebar={sidebar} toggle={toggle} setVw={setVw} />
