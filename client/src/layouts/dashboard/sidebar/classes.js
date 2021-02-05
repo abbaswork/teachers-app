@@ -91,8 +91,6 @@ export default class Classes extends React.Component {
 
     render() {
 
-        console.log('props: ', this.props);
-
         return (
             <>
                 {this.state.data.map((classes) =>
@@ -100,7 +98,7 @@ export default class Classes extends React.Component {
                         <Col xs="2"> </Col>
                         <Col xs="8">
                             <NavLink to={"/home/" + classes.id} className="no-overflow p-0 pl-2" style={{ fontSize: '1.3rem' }} activeClassName="border rounded">
-                                <h4>{classes.name}</h4>
+                                <h5>{classes.name}</h5>
                             </NavLink>
                         </Col>
                         <Col className="p-0" xs="2">

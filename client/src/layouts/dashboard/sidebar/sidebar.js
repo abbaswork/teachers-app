@@ -1,6 +1,6 @@
 /* React Imports */
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 /* Component Imports */
@@ -9,7 +9,7 @@ import auth from './../../../auth/auth';
 
 /* UI Imports */
 import { Row, Col, Button } from 'reactstrap';
-import { BsClipboard, BsBoxArrowInRight } from "react-icons/bs";
+import { BsClipboard, BsBoxArrowInRight, BsPersonLinesFill } from "react-icons/bs";
 import heroImage from './../../../assets/images/hero.jpg';
 
 /* Rendered as functional component */
@@ -23,6 +23,9 @@ const Sidebar = (props) => {
     const [classes, setClasses] = useState(true);
     const toggleClasses = () => setClasses(!classes);
     const [cookies, removeCookie] = useCookies(['auth']);
+
+    /* Get class id if available */
+    const classId = props.location.pathname.split('/home/');
 
     const logout = () => {
         auth.logout(() => {
@@ -42,28 +45,38 @@ const Sidebar = (props) => {
         }}>
             {/* First Row includes toggle button for sidebar and Title */}
             <Row className="border-divider pb-1">
+                {/*
                 <Col xs="2" md="3" >
                     <button className="collapse-icon text-white m-0" onClick={props.toggle} >&#9776;</button>
                 </Col>
                 <Col xs="10" md="9" className="d-flex align-items-center">
                     <h3 className="m-0">Classroom</h3>
-                </Col>
+                </Col> 
+                */}
+
+                <Button className="pl-0 ml-5" onClick={props.toggle} >&#9776;</Button>
+                <Button onClick={toggleClasses}><h4 className="m-0 p-0">Classroom</h4></Button>
+
             </Row>
 
             {/* Following rows contain defined routes */}
             <Row className="mt-3">
-                <Col xs="2">
-                    <BsClipboard className="side-icon text-white h5" />
-                </Col>
-                <Col xs="10">
-                    <Button className="p-0" onClick={toggleClasses}><h3>Classes</h3></Button>
-                    {/* Child Rows with collapse*/}
-                </Col>
+                <BsClipboard className="side-icon text-white h5 ml-5" />
+                <Button onClick={toggleClasses}><h4 className="m-0 p-0">Classes</h4></Button>
             </Row>
+            {/* Child Rows with collapse*/}
             <div className="content" style={{ maxHeight: (classes ? '100vh' : '0px') }}>
                 {/* Each child row comes with button */}
                 <Classes />
             </div>
+
+            {/* Links that only showup when class is already selected, ex.home/75*/}
+            { classId[1] !== undefined &&
+                <Row className="mt-3">
+                    <BsPersonLinesFill className="side-icon text-white h5 ml-5" />
+                    <Button onClick={() => props.history.push(`/pupils/${classId[1]}`)}><h4 className="m-0 p-0">Pupil Tracker</h4></Button>
+                </Row>
+            }
 
             <Row style={{ position: 'fixed', bottom: '10px', left: '0px' }}>
                 <Col xs="2">

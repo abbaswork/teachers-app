@@ -61,6 +61,7 @@ class Login extends React.Component {
             <Input
               type="password" value={this.state.password} name="password" id="passwordId" className="rounded-0" placeholder="Password" bsSize="lg"
               onChange={this.handleChange.bind(this, 'password')} //controlled
+              onKeyPress={(e) => e.key === 'Enter' ? this.handleLogin(e) : null} //On enter login as well
             />
           </FormGroup>
 

@@ -14,7 +14,7 @@ const PageHeader = (props) => {
                     color: props.sidebar ? 'white' : 'orange',
                     cursor: props.sidebar ? 'default' : 'pointer'
                 }} onClick={props.toggle}>&#9776;</button>
-            <h3 className="d-inline">Dashboard</h3>
+            <h3 className="d-inline">{props.title}</h3>
         </Container >);
 }
 

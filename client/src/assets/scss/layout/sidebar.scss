@@ -18,7 +18,7 @@
 
 /* The sidebar links */
 .sidebar a {
-  padding: 8px 8px 8px 32px;
+  padding: 0px;
   text-decoration: none;
   font-size: 25px;
   color: white;
@@ -29,11 +29,17 @@
 /* Sidebar buttons */
 .sidebar button {
   color: white;
+  padding: 0px 0px 0px 15px;
   background: none;
   outline: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 25px;
   transition: 0.3s;
+}
+
+svg {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .sidebar button:hover {

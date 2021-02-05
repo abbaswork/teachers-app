@@ -29,10 +29,8 @@ export default class Section extends React.Component {
             color: '',
             createSection: false,
             newSection: '',
-
         }
     }
-
 
     /* Internal Section Event Handlers*/
     async componentDidMount() {
@@ -46,6 +44,9 @@ export default class Section extends React.Component {
             } catch (e) {
                 console.log(e);
             }
+
+            /* Add event listner for out of component clicks */
+            document.addEventListener('mousedown', this.handleClickOutside);
         }
     }
 
@@ -130,8 +131,11 @@ export default class Section extends React.Component {
                                         {!this.state.updateName ?
                                             this.props.section.name : //use name
 
-                                            //use component that handles updating new name
+                                            /*use component that handles updating new name and contains ref */
                                             <Input type="text" value={this.state.newName} onChange={(e) => this.setState({ newName: e.target.value })}
+
+                                                /* On Focus handle */
+                                                onBlur={() => this.setState({ updateName: false })}
 
                                                 /* On key press enter, call update handler */
                                                 onKeyPress={(e) =>

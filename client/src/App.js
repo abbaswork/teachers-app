@@ -8,6 +8,7 @@ import AdminLayoutRoute from './layouts/dashboard/dashboard-route';
 
 /*render dynamic imports as regular components to enable code splitting (only loading what's needed) */
 const Home = lazy(() => import('./pages/home/home'));
+const Pupils = lazy(() => import('./pages/pupils/index'));
 const Login = lazy(() => import('./pages/login'));
 const Signup = lazy(() => import('./pages/signup'));
 
@@ -25,6 +26,7 @@ const App = () => (
       <Switch>
 
         {/* Using defined protectRoute component and login as default */}
+        <AdminLayoutRoute path="/pupils" component={Pupils} />
         <AdminLayoutRoute path="/home" component={Home} />
         <AuthLayoutRoute exact path="/signup" component={Signup} />
         <AuthLayoutRoute path="/" component={Login} />
