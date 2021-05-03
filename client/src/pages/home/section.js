@@ -183,7 +183,7 @@ export default class Section extends React.Component {
                 {this.props.section === null &&
                     <div className="d-flex align-items-center justify-content-center h-100 w-100">
                         <h4 className="d-inline">
-                            <span className="badge text-white rounded-0" style={{ backgroundColor: 'orange', cursor: 'pointer' }} onClick={() => this.setState({ createSection: true })}>
+                            <span className="badge text-white rounded-0" style={{ backgroundColor: 'green', cursor: 'pointer' }} onClick={() => this.setState({ createSection: true })}>
                                 {this.state.createSection ?
                                     <Input type="text" onChange={(e) => this.setState({ newSection: e.target.value })} onKeyPress={(e) => e.key === 'Enter' ? this.createSection(this.state.newSection) : null} />
                                     : 'Create Section'
