@@ -1,9 +1,5 @@
 @import "./base/base.scss";
 @import "./themes/theme.scss";
-@import "./layout/sidebar.scss";
-@import "./layout/container.scss";
-
-@import "./components/collapse.scss";
-@import "./components/buttons.scss";
-@import "./components/alerts.scss";
-@import "./components/icons.scss";
+@import "./layout/index.scss";
+@import "./pages/index.scss";
+@import "./components/index.scss";

@@ -1,0 +1,22 @@
+/* Header Styles */
+.header {
+  border-bottom: 3px solid white;
+
+  button {
+    color: orange;
+    padding: 0px 0px 0px 15px;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    transition: 0.3s;
+  }
+
+  button:active {
+    background-color: none;
+  }
+
+  h4 {
+    color: black;
+  }
+}

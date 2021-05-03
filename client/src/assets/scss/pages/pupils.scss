@@ -1,0 +1,11 @@
+.pupil-page {
+    input {
+        background-color: rgba($color: #ff9900, $alpha: 1);
+        outline: none;
+        border: none;
+    }
+
+    ::placeholder {
+        color: white;
+    }
+}

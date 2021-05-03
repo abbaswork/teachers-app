@@ -1,0 +1,19 @@
+.tabs {
+    color: grey;
+
+    button {
+        color: grey;
+        padding-right: 3rem;
+        background: none;
+        outline: none;
+        border: none;
+        border-bottom: 2px solid #e6e6e6;
+        transition: 0.15s ease-in;
+    }
+
+    .active {
+        color: black;
+        font-weight: bold;
+        border-bottom: 5px solid orange;
+    }
+}
