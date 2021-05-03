@@ -1,21 +1,26 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import {
+    Row,
+} from 'reactstrap';
 
 
 /* Rendered as functional component */
 const PageHeader = (props) => {
 
     return (
-        <Container fluid className={props.className + ''}>
-            <button className="collapse-icon m-0"
-                style={{
-                    fontSize: '1.5rem',
-                    outline: 'none',
-                    color: props.sidebar ? 'white' : 'orange',
-                    cursor: props.sidebar ? 'default' : 'pointer'
-                }} onClick={props.toggle}>&#9776;</button>
-            <h3 className="d-inline">{props.title}</h3>
-        </Container >);
+        <Row className="header border-divider pb-1">
+
+            <button className="pl-0" onClick={props.toggle} style={{
+                color: !props.sidebar ? 'orange' : 'white',
+                marginLeft: !props.sidebar ? '2rem' : '0rem'
+                //width: '0px',
+                //overflow: 'hidden'
+            }} >&#9776;</button>
+            <button className="pl-0 ml-2"><h4 className="m-0 p-0">{props.title}</h4></button>
+
+        </Row>
+    );
+
 }
 
 export default PageHeader;
