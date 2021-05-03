@@ -1,6 +1,6 @@
 /* React Imports */
 import React, { useState } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 /* Component Imports */
@@ -8,7 +8,7 @@ import Classes from './classes';
 import auth from './../../../auth/auth';
 
 /* UI Imports */
-import { Row, Col, Button } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { BsClipboard, BsBoxArrowInRight, BsPersonLinesFill } from "react-icons/bs";
 import heroImage from './../../../assets/images/hero.jpg';
 
@@ -54,15 +54,15 @@ const Sidebar = (props) => {
                 </Col> 
                 */}
 
-                <Button className="pl-0 ml-5" onClick={props.toggle} >&#9776;</Button>
-                <Button onClick={toggleClasses}><h4 className="m-0 p-0">Classroom</h4></Button>
+                <button className="pl-0 ml-5" onClick={props.toggle} >&#9776;</button>
+                <button onClick={toggleClasses}><h4 className="m-0 p-0">Classroom</h4></button>
 
             </Row>
 
             {/* Following rows contain defined routes */}
             <Row className="mt-3">
                 <BsClipboard className="side-icon text-white h5 ml-5" />
-                <Button onClick={toggleClasses}><h4 className="m-0 p-0">Classes</h4></Button>
+                <button onClick={toggleClasses}><h4 className="m-0 p-0">Classes</h4></button>
             </Row>
             {/* Child Rows with collapse*/}
             <div className="content" style={{ maxHeight: (classes ? '100vh' : '0px') }}>
@@ -74,7 +74,7 @@ const Sidebar = (props) => {
             { classId[1] !== undefined &&
                 <Row className="mt-3">
                     <BsPersonLinesFill className="side-icon text-white h5 ml-5" />
-                    <Button onClick={() => props.history.push(`/pupils/${classId[1]}`)}><h4 className="m-0 p-0">Pupil Tracker</h4></Button>
+                    <button onClick={() => props.history.push(`/pupils/${classId[1]}`)}><h4 className="m-0 p-0">Pupil Tracker</h4></button>
                 </Row>
             }
 
