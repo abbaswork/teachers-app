@@ -4,6 +4,7 @@ import axios from 'axios';
 /* Component Imports */
 import Section from './section';
 import auth from './../../auth/auth';
+import SideForum from './sideForum';
 
 /* Ui imports */
 import {
@@ -15,7 +16,8 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       data: [],
-      id: this.props.location.pathname.slice(6, this.props.location.pathname.length)
+      id: this.props.location.pathname.slice(6, this.props.location.pathname.length),
+      sidebar: "0vw"
     }
   }
 
@@ -89,14 +91,24 @@ export default class Home extends React.Component {
 
   }
 
+  /* Side menu controller to be passed to section task */
+  handleSideMenu = async () => {
+    this.setState({ sidebar: this.state.sidebar ==='25vw' ? '0vw' : '25vw' });
+  }
+
   render() {
 
     return (
       <>
+        {/* render fixed sidebar for task menu options */}
+        <SideForum sidebar={this.state.sidebar}/>
+
         {  /* Render container if class is selected */
           this.props.location.pathname !== '/home' &&
 
           <Container fluid>
+
+            <button onClick={() => this.handleSideMenu()}>Click me for side menu</button>
 
             {/* Disable wrap feature of rows and create horizontal scroll */}
             <Row className="flex-row flex-nowrap">
