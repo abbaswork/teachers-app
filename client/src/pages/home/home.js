@@ -92,29 +92,33 @@ export default class Home extends React.Component {
   }
 
   /* Side menu controller to be passed to section task */
-  handleSideMenu = async () => {
-    this.setState({ sidebar: this.state.sidebar ==='25vw' ? '0vw' : '25vw' });
+  handleSideMenuOpen = async (open) => {
+    console.log(open);
+    this.setState({
+      width: !open ? '0px' : '25vw',
+      padding: !open ? '0px' : '2rem'
+    });
   }
+
 
   render() {
 
     return (
       <>
         {/* render fixed sidebar for task menu options */}
-        <SideForum sidebar={this.state.sidebar}/>
+        <SideForum width={this.state.width} padding={this.state.padding} handleSideMenuOpen={this.handleSideMenuOpen} />
 
         {  /* Render container if class is selected */
           this.props.location.pathname !== '/home' &&
 
           <Container fluid>
 
-            <button onClick={() => this.handleSideMenu()}>Click me for side menu</button>
-
             {/* Disable wrap feature of rows and create horizontal scroll */}
             <Row className="flex-row flex-nowrap">
               {this.state.data.map((section) =>
                 <Col xs="12" md="3" key={section.id}>
-                  <Section section={section} handleDeleteSection={this.handleDeleteSection} handleUpdateSection={this.handleUpdateSection} handleCreateSection={this.handleCreateSection} />
+                  <Section section={section} handleDeleteSection={this.handleDeleteSection} handleUpdateSection={this.handleUpdateSection}
+                    handleCreateSection={this.handleCreateSection} handleSideMenuOpen={this.handleSideMenuOpen} />
                 </Col>
               )}
 

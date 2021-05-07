@@ -114,7 +114,6 @@ export default class Section extends React.Component {
 
 
     render() {
-
         return (
             <Container className="border p-4 shadow" style={{ height: '80vh', overflowY: 'scroll' }} fluid>
 
@@ -174,7 +173,10 @@ export default class Section extends React.Component {
 
                         {/* Map section tasks */}
                         {this.state.data.map((task) =>
-                            <SectionCard key={task.id} className="mt-4 shadow" task={task} color={this.props.section.color} handleUpdateTask={this.handleUpdateTask} handleDeleteTask={this.handleDeleteTask} />
+                            <SectionCard key={task.id} className="mt-4 shadow" task={task} color={this.props.section.color}
+                             handleUpdateTask={this.handleUpdateTask} handleDeleteTask={this.handleDeleteTask}
+                             handleSideMenuOpen={this.props.handleSideMenuOpen}
+                             />
                         )}
                     </div>
                 }
