@@ -12,11 +12,13 @@ import {
     Card, CardText,
     ListGroup, ListGroupItem,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
+    FormGroup, Label,
     Input
 } from 'reactstrap';
-import { BsFillClockFill, BsCardChecklist, BsFillPlusSquareFill, BsThreeDots } from "react-icons/bs";
+import { BsFillClockFill, BsCardChecklist, BsFillPlusSquareFill, BsThreeDots, BsBriefcaseFill, BsGear } from "react-icons/bs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 
 export default class SectionCard extends React.Component {
     constructor(props) {
@@ -33,7 +35,8 @@ export default class SectionCard extends React.Component {
             editDate: false,
             newDate: new Date(),
             addSubtask: false,
-            newSubTask: ''
+            newSubTask: '',
+            type: 'Task'
         }
     }
 
@@ -107,12 +110,19 @@ export default class SectionCard extends React.Component {
         }
     }
 
+    handleTypeSelect = async (e) => {
+
+        /* set value and check if menu is required */
+        this.setState({ type: e.target.value })
+
+        e.target.value === "Assesment" ?
+            this.props.handleSideMenuOpen(true)
+            : this.props.handleSideMenuOpen(false)
+    }
+
     render() {
-
-
-
         return (
-            <Card className={this.props.className} body>
+            <Card className={this.props.className + " home"} body>
                 <Row className="mb-2">
                     <Col xs="10">
                         <CardText tag="h5">
@@ -138,6 +148,7 @@ export default class SectionCard extends React.Component {
                     </Col>
                 </Row>
                 <ListGroup flush>
+
                     {/* Card Date and Sub task sections */}
                     <ListGroupItem tag="div" className="pl-0" style={{ outline: 'none' }} action>
                         <Row>
@@ -153,22 +164,33 @@ export default class SectionCard extends React.Component {
                                     showTimeInput
                                     shouldCloseOnSelect={false}
                                 />
-
-                                { /*this.state.editDate ?
-                                    <DatePicker
-                                        selected={new Date(this.props.task.date)}
-                                        onChange={(e) => this.handleUpdate('date', e, 'editDate')}
-                                        timeInputLabel="Time:"
-                                        dateFormat="MMMM d, yyyy h:mm aa"
-                                        showTimeInput
-                                    />
-                                    : <CardText onClick={() => this.setState({ editDate: true })} style={{ cursor: 'pointer' }} >
-                                        {dateFormat(this.props.task.date, "	ddd mmm dd yyyy, HH:MM TT")}
-                                    </CardText>
-                                */}
                             </Col>
                         </Row>
                     </ListGroupItem>
+
+                    {/* Input select for task type */}
+                    <ListGroupItem tag="div" className="pl-0" style={{ outline: 'none' }} action>
+                        <Row>
+                            <Col xs="1">
+                                <BsBriefcaseFill style={{ color: this.props.color }} />
+                            </Col>
+                            <Col xs="8">
+                                <Input type="select" name="select" id="exampleSelect"
+                                    onChange={(e) => this.handleTypeSelect(e)} value={this.state.type}
+                                >
+                                    <option>Task</option>
+                                    <option>Assesment</option>
+                                </Input>
+                            </Col>
+                            <Col xs="2">
+                                {this.state.type === 'Assesment' &&
+                                    <BsGear className="btn-icon" onClick={() => this.props.handleSideMenuOpen(true)} />
+                                }
+                            </Col>
+
+                        </Row>
+                    </ListGroupItem>
+
                     {/* Toggle for subtasks with subtasks */}
                     <ListGroupItem tag="button" className="pl-0 border-bottom-0" onClick={this.collapse} action>
                         <Row>
@@ -180,12 +202,14 @@ export default class SectionCard extends React.Component {
                             </Col>
                         </Row>
                     </ListGroupItem>
+
+                    {/* Render Subtask */}
                     <div className="content" style={{ maxHeight: (this.state.collapse ? '100vh' : '0px'), overflow: (this.state.collapse ? 'visible' : 'hidden') }}>
                         {this.state.data.map((subtask) =>
                             <Subtask key={subtask.id} subtask={subtask} color={this.props.color} handleDeleteSubtask={this.handleDeleteSubtask} handleUpdateSubtask={this.handleUpdateSubtask} />
                         )}
 
-                        {/* Add more Subtasks */}
+                        {/* Add Subtask*/}
                         <Row>
                             <Col xs="2">
                                 <BsFillPlusSquareFill style={{ cursor: 'pointer', color: this.props.color }} onClick={() => this.setState({ addSubtask: true })/*this.handleAddSubtask.bind(this, 'new Subtask')*/} />
