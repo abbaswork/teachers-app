@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 /* Component Imports */
 import Section from './section';
@@ -17,7 +18,15 @@ export default class Home extends React.Component {
     this.state = {
       data: [],
       id: this.props.location.pathname.slice(6, this.props.location.pathname.length),
-      sidebar: "0vw"
+      sidebar: "0vw",
+
+      /* keep track of active task at home level */
+      activeTask: {
+        type: null,
+        points: null,
+        weight: null,
+        notes: null
+      }
     }
   }
 
@@ -100,13 +109,20 @@ export default class Home extends React.Component {
     });
   }
 
+  /* Function passed down to several components to track active task */
+  handleActiveTask = async (task) => {
+    this.setState({ activeTask: task });
+  }
+
 
   render() {
 
     return (
       <>
         {/* render fixed sidebar for task menu options */}
-        <SideForum width={this.state.width} padding={this.state.padding} handleSideMenuOpen={this.handleSideMenuOpen} />
+        <SideForum width={this.state.width} padding={this.state.padding} handleSideMenuOpen={this.handleSideMenuOpen}
+          activeTask={this.state.activeTask}
+        />
 
         {  /* Render container if class is selected */
           this.props.location.pathname !== '/home' &&
@@ -118,7 +134,9 @@ export default class Home extends React.Component {
               {this.state.data.map((section) =>
                 <Col xs="12" md="3" key={section.id}>
                   <Section section={section} handleDeleteSection={this.handleDeleteSection} handleUpdateSection={this.handleUpdateSection}
-                    handleCreateSection={this.handleCreateSection} handleSideMenuOpen={this.handleSideMenuOpen} />
+                    handleCreateSection={this.handleCreateSection} handleSideMenuOpen={this.handleSideMenuOpen}
+                    handleActiveTask={this.handleActiveTask}
+                  />
                 </Col>
               )}
 
@@ -140,3 +158,4 @@ export default class Home extends React.Component {
     );
   }
 }
+

@@ -79,6 +79,20 @@ export default class Section extends React.Component {
 
     }
 
+    handleDeleteTask = async (id) => {
+
+        try { /* Send request to delete task and re mount component*/
+            await axios.delete(process.env.REACT_APP_SERVER_URL + '/task/' + id,
+                { auth: { username: auth.email, password: auth.password } });
+
+            this.componentDidMount();
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+
     handleUpdateTask = async (id, field, value) => {
 
         /* find index to update, and update state with updated copy 
@@ -90,19 +104,6 @@ export default class Section extends React.Component {
         try { /* Send request to update task and re mount component*/
             await axios.put(process.env.REACT_APP_SERVER_URL + '/task/' + id,
                 { field: field, value: value },
-                { auth: { username: auth.email, password: auth.password } });
-
-            this.componentDidMount();
-
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    handleDeleteTask = async (id) => {
-
-        try { /* Send request to delete task and re mount component*/
-            await axios.delete(process.env.REACT_APP_SERVER_URL + '/task/' + id,
                 { auth: { username: auth.email, password: auth.password } });
 
             this.componentDidMount();
@@ -174,9 +175,10 @@ export default class Section extends React.Component {
                         {/* Map section tasks */}
                         {this.state.data.map((task) =>
                             <SectionCard key={task.id} className="mt-4 shadow" task={task} color={this.props.section.color}
-                             handleUpdateTask={this.handleUpdateTask} handleDeleteTask={this.handleDeleteTask}
-                             handleSideMenuOpen={this.props.handleSideMenuOpen}
-                             />
+                                handleDeleteTask={this.handleDeleteTask}
+                                handleSideMenuOpen={this.props.handleSideMenuOpen}
+                                handleActiveTask={this.props.handleActiveTask} handleUpdateTask={this.handleUpdateTask}
+                            />
                         )}
                     </div>
                 }

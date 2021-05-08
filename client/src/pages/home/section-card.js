@@ -36,7 +36,6 @@ export default class SectionCard extends React.Component {
             newDate: new Date(),
             addSubtask: false,
             newSubTask: '',
-            type: 'Task'
         }
     }
 
@@ -62,7 +61,9 @@ export default class SectionCard extends React.Component {
     handleUpdate = (field, value, toggle) => {
 
         /* Turn off new field and update through passed function handler */
-        this.setState({ [toggle]: false });
+        if (toggle) {
+            this.setState({ [toggle]: false });
+        }
         this.props.handleUpdateTask(this.props.task.id, field, value);
     }
 
@@ -103,21 +104,23 @@ export default class SectionCard extends React.Component {
 
             this.setState({ addSubtask: false }, function () { this.componentDidMount() });
 
-
-
         } catch (e) {
             console.log(e);
         }
     }
 
-    handleTypeSelect = async (e) => {
+    handleTypeSelect = async (type) => {
 
         /* set value and check if menu is required */
-        this.setState({ type: e.target.value })
+        //this.setState({ type: e.target.value });
+        this.props.handleActiveTask(this.props.task);
 
-        e.target.value === "Assesment" ?
-            this.props.handleSideMenuOpen(true)
+        type === "Assesment" ?
+            this.props.handleSideMenuOpen(true, this.props.task)
             : this.props.handleSideMenuOpen(false)
+
+        this.handleUpdate('type', type);
+
     }
 
     render() {
@@ -176,15 +179,15 @@ export default class SectionCard extends React.Component {
                             </Col>
                             <Col xs="8">
                                 <Input type="select" name="select" id="exampleSelect"
-                                    onChange={(e) => this.handleTypeSelect(e)} value={this.state.type}
+                                    onChange={(e) => this.handleTypeSelect(e.target.value)} value={this.props.task.type}
                                 >
                                     <option>Task</option>
                                     <option>Assesment</option>
                                 </Input>
                             </Col>
                             <Col xs="2">
-                                {this.state.type === 'Assesment' &&
-                                    <BsGear className="btn-icon" onClick={() => this.props.handleSideMenuOpen(true)} />
+                                {this.props.task.type === 'Assesment' &&
+                                    <BsGear className="btn-icon" onClick={() => this.handleTypeSelect('Assesment')} />
                                 }
                             </Col>
 

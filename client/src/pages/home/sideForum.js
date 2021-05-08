@@ -1,47 +1,77 @@
 import React from "react";
 import { Container, Form, FormGroup, Label, Row, Col, Input, Button } from "reactstrap";
 
+/* import connection libraries */
+import axios from 'axios';
+import auth from './../../auth/auth';
+
 
 export default class sideForum extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            initial: false
+            /* load default values from active task */
+            assesment: this.props.activeTask.assesment,
+            points: this.props.activeTask.points,
+            weight: this.props.activeTask.weight,
+            notes: this.props.activeTask.notes
         }
     }
 
-    handleSave = async () => {
-        this.setState({
-            initial: true
-        });
 
+    handleSave = async () => {
+
+        try { /* Send request to update task and re mount component*/
+            await axios.put(process.env.REACT_APP_SERVER_URL + '/task/assesment/' + this.props.activeTask.id,
+                {
+                    assesment: {
+                        assesment: this.state.assesment,
+                        points: this.state.points,
+                        weight: this.state.weight,
+                        notes: this.state.notes
+                    }
+                },
+                { auth: { username: auth.email, password: auth.password } });
+
+        } catch (e) {
+            console.log(e);
+        }
+
+        this.props.handleSideMenuOpen(false);
+    }
+
+    handleCancel = async () => {
+
+        /* rest input to default and close */
+        this.setState({
+            assesment: this.props.activeTask.assesment,
+            points: this.props.activeTask.points,
+            weight: this.props.activeTask.weight,
+            notes: this.props.activeTask.notes
+        })
         this.props.handleSideMenuOpen(false);
     }
 
     render() {
 
-        console.log(this.props)
+        console.log('form: ', this.props);
+        console.log('form: ', this.state);
 
         return (
             <>
                 {/* render fixed sidebar for task menu options */}
                 <div className="sideforum shadow" style={{ width: this.props.width, padding: this.props.padding }}>
 
-                    <h2>Assesment Settings</h2>
-
-                    {/* Name */}
-                    <FormGroup row className="mt-4">
-                        <Label for="name" sm={3}>Name</Label>
-                        <Col>
-                            <Input type="text" name="name" id="name" placeholder="name of assesment" />
-                        </Col>
-                    </FormGroup>
+                    <h2 className="mb-5">Assesment Settings</h2>
 
                     {/* Type */}
                     <FormGroup row>
                         <Label for="type" sm={3}>Type</Label>
                         <Col>
-                            <Input type="select" name="type" id="type">
+                            <Input type="select" name="type" id="type"
+                                value={this.state.assesment || this.props.activeTask.assesment}
+                                onChange={(e) => this.setState({ assesment: e.target.value })}
+                            >
                                 <option>Assignment</option>
                                 <option>Quiz</option>
                                 <option>Test</option>
@@ -54,7 +84,10 @@ export default class sideForum extends React.Component {
                     <FormGroup row>
                         <Label for="points" sm={3}>Points</Label>
                         <Col>
-                            <Input type="number" min="0" name="points" id="points" placeholder="Out of" />
+                            <Input type="number" min="0" name="points" id="points" placeholder="Out of"
+                                value={this.state.points || this.props.activeTask.points}
+                                valid={this.state.points ? true : false} invalid={!this.state.points && !this.props.activeTask.points ? true : false}
+                                onChange={(e) => this.setState({ points: e.target.value })} />
                         </Col>
                     </FormGroup>
 
@@ -62,19 +95,10 @@ export default class sideForum extends React.Component {
                     <FormGroup row>
                         <Label for="weight" sm={3}>Weight</Label>
                         <Col>
-                            <Input type="number" min="0" max="100" name="weight" id="weight" placeholder="% of 100" />
-                        </Col>
-                    </FormGroup>
-
-                    {/* Dynamically render sections for the classroom */}
-                    <FormGroup row>
-                        <Label for="section" sm={3}>Section</Label>
-                        <Col>
-                            <Input type="select" name="section" id="section">
-                                <option>Unit 1</option>
-                                <option>Unit 2</option>
-                                <option>Unit 3</option>
-                            </Input>
+                            <Input type="number" min="0" max="100" name="weight" id="weight" placeholder="% of 100"
+                                value={this.state.weight || this.props.activeTask.weight}
+                                valid={this.state.weight ? true : false} invalid={!this.state.weight && !this.props.activeTask.weight ? true : false}
+                                onChange={(e) => this.setState({ weight: e.target.value })} />
                         </Col>
                     </FormGroup>
 
@@ -82,7 +106,7 @@ export default class sideForum extends React.Component {
                     <FormGroup row>
                         <Label for="notes" sm={3}>Notes</Label>
                         <Col>
-                            <Input type="textarea" name="notes" id="section" />
+                            <Input type="textarea" name="notes" id="section" value={this.state.notes || this.props.activeTask.notes} onChange={(e) => this.setState({ notes: e.target.value })} />
                         </Col>
                     </FormGroup>
 
@@ -90,8 +114,8 @@ export default class sideForum extends React.Component {
                         <Col sm={3}>
                         </Col>
                         <Col className="display-inline">
-                            <Button className="mr-3 btn btn-success" onClick={() => this.handleSave()}>Save</Button>
-                            <Button className="btn btn-outline-danger" onClick={() => this.props.handleSideMenuOpen(false)}>Cancel</Button>
+                            <Button className="mr-3 btn btn-success" disabled={!this.state.points || !this.state.weight} onClick={() => this.handleSave()}>Save</Button>
+                            <Button className="btn btn-outline-danger" onClick={() => this.handleCancel()}>Cancel</Button>
                         </Col>
                     </Row>
                 </div>
