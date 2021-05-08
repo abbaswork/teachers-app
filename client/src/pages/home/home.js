@@ -4,6 +4,7 @@ import axios from 'axios';
 /* Component Imports */
 import Section from './section';
 import auth from './../../auth/auth';
+import SideForum from './sideForum';
 
 /* Ui imports */
 import {
@@ -15,7 +16,16 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       data: [],
-      id: this.props.location.pathname.slice(6, this.props.location.pathname.length)
+      id: this.props.location.pathname.slice(6, this.props.location.pathname.length),
+      sidebar: "0vw",
+
+      /* keep track of active task at home level */
+      activeTask: {
+        type: null,
+        points: null,
+        weight: null,
+        notes: null
+      }
     }
   }
 
@@ -89,10 +99,30 @@ export default class Home extends React.Component {
 
   }
 
+  /* Side menu controller to be passed to section task */
+  handleSideMenuOpen = async (open) => {
+    console.log(open);
+    this.setState({
+      width: !open ? '0px' : '25vw',
+      padding: !open ? '0px' : '2rem'
+    });
+  }
+
+  /* Function passed down to several components to track active task */
+  handleActiveTask = async (task) => {
+    this.setState({ activeTask: task });
+  }
+
+
   render() {
 
     return (
       <>
+        {/* render fixed sidebar for task menu options */}
+        <SideForum width={this.state.width} padding={this.state.padding} handleSideMenuOpen={this.handleSideMenuOpen}
+          activeTask={this.state.activeTask}
+        />
+
         {  /* Render container if class is selected */
           this.props.location.pathname !== '/home' &&
 
@@ -102,7 +132,10 @@ export default class Home extends React.Component {
             <Row className="flex-row flex-nowrap">
               {this.state.data.map((section) =>
                 <Col xs="12" md="3" key={section.id}>
-                  <Section section={section} handleDeleteSection={this.handleDeleteSection} handleUpdateSection={this.handleUpdateSection} handleCreateSection={this.handleCreateSection} />
+                  <Section section={section} handleDeleteSection={this.handleDeleteSection} handleUpdateSection={this.handleUpdateSection}
+                    handleCreateSection={this.handleCreateSection} handleSideMenuOpen={this.handleSideMenuOpen}
+                    handleActiveTask={this.handleActiveTask}
+                  />
                 </Col>
               )}
 
@@ -124,3 +157,4 @@ export default class Home extends React.Component {
     );
   }
 }
+

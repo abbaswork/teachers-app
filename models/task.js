@@ -7,6 +7,11 @@ module.exports = (sequelize, type) => {
             autoIncrement: true
         },
         name: type.STRING,
-        date: type.DATE
+        date: type.DATE,
+        type: type.STRING,
+        assesment: type.STRING,
+        points: type.DECIMAL,
+        weight: type.DECIMAL,
+        notes: type.TEXT,
     })
 }

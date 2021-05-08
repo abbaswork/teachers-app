@@ -1,0 +1,43 @@
+/* The sidebar menu */
+.sideforum {
+  height: 90%;/* Full-height: remove this if you want "auto" height */
+  width: 0vw; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 10%;
+  right: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+  transition: 0.3s;
+
+  /*inner padding */
+  padding: 0px;
+
+  /* flex properties to center forum
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  */
+
+  h2 {
+    font-size: 24px;
+  }
+
+ label {
+   font-size: 18px;
+ }
+ 
+ .btn-outline-danger {
+   background: transparent;
+ }
+
+ .btn-outline-danger:hover,.btn-outline-danger:focus  {
+  background: #dc3545;
+}
+
+
+  /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+
+  }
+}
