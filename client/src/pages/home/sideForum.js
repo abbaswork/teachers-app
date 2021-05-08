@@ -54,9 +54,6 @@ export default class sideForum extends React.Component {
 
     render() {
 
-        console.log('form: ', this.props);
-        console.log('form: ', this.state);
-
         return (
             <>
                 {/* render fixed sidebar for task menu options */}
