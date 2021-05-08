@@ -1,6 +1,5 @@
 import React from "react";
 import axios from 'axios';
-import PropTypes from 'prop-types';
 
 /* Component Imports */
 import Section from './section';

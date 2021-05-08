@@ -12,7 +12,6 @@ import {
     Card, CardText,
     ListGroup, ListGroupItem,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
-    FormGroup, Label,
     Input
 } from 'reactstrap';
 import { BsFillClockFill, BsCardChecklist, BsFillPlusSquareFill, BsThreeDots, BsBriefcaseFill, BsGear } from "react-icons/bs";
