@@ -64,23 +64,55 @@ class TaskServices {
     };
 
     /**
-     * remove provided class
+     * update task
      * @param {number} taskId- Provide the id of the class
      */
     async updateTask(taskId, field, value) {
 
-        /* return null in the callback if invalid username or password */
+        /* check for valid taskId */
         if (!taskId) {
             throw Error(`Passed invalid classroom`);
         }
 
-        /* Update given class for field with provided value */
+        /* Update given task for field with provided value */
         const [numRows, rows] = await SequelizeBot.Task.update(
             { [field]: value },
             { where: { id: taskId } }
         );
 
         return numRows;
+    };
+
+    /**
+     * update assesment for task
+     * @param {number} taskId- Provide the id of the task
+     * @param {JSON} assignment - Provide the assignment to update with
+     */
+    async updateTaskAssesment(taskId, assesment) {
+
+        /* check for valid taskId */
+        if (!taskId || !assesment) {
+            throw Error(`Passed invalid ${taskId ? 'assignment' : 'task'}`);
+        }
+
+        /* Update given task for assignment related fields */
+        try {
+            const [numRows, rows] = await SequelizeBot.Task.update(
+                {
+                    assesment: assesment.assesment,
+                    points: assesment.points,
+                    weight: assesment.weight,
+                    notes: assesment.notes
+                },
+                { where: { id: taskId } }
+            );
+
+            return numRows;
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+
     };
 }
 
