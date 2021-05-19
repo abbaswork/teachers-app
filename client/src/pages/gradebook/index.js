@@ -12,7 +12,7 @@ export default function Gradebook() {
       <Row>
         <GradeChart />
       </Row>
-      <Row>
+      <Row className="mt-5">
         <GradeTable />
       </Row>
     </Container>
