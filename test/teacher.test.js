@@ -13,7 +13,7 @@ const { Op } = require("sequelize");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('Test Teacher Services', function () {
+describe('#test teachers', function () {
 
     before(async function () {
         await SequelizeBot.init();
@@ -43,7 +43,7 @@ describe('Test Teacher Services', function () {
     });
 
 
-    describe('Verify Login', function () {
+    describe('#teacher login', function () {
 
         it('provided an invalid callback, it should resolve with an error', async function () {
             await expect(TeacherServices.login()).to.be.rejectedWith(Error);
@@ -66,7 +66,7 @@ describe('Test Teacher Services', function () {
 
     });
 
-    describe('Verify Signup', function () {
+    describe('#teacher signup', function () {
 
         it('provided an invalid user and/or password, return error', async function () {
             await expect(TeacherServices.signup()).to.be.rejectedWith(Error);

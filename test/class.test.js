@@ -3,7 +3,6 @@ const configVars = require('dotenv').config();
 /* Testing + with promises libraries */
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
-const SectionServices = require('../services/section');
 const ClassServices = require('../services/class');
 const ClassroomServices = require('../services/classroom');
 const TeacherServices = require('../services/teacherServices');
@@ -16,7 +15,7 @@ const { Op } = require("sequelize");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('Test Section Services', function () {
+describe('#class services', function () {
 
     before(async function () {
         await SequelizeBot.init();
@@ -36,58 +35,48 @@ describe('Test Section Services', function () {
         await SequelizeBot.Class.destroy({
             where: { classroom_id: null }
         });
-        await SequelizeBot.Section.destroy({
-            where: { class_id: null }
-        });
     });
 
 
-    describe('Create Section for Class', function () {
+    describe('#create class', function () {
 
-        it('provided invalid params should return error', async function () {
-            await expect(SectionServices.createSection()).to.be.rejectedWith(Error);
+        it('provided invalid name/classroomID should return error', async function () {
+            await expect(ClassServices.createClass()).to.be.rejectedWith(Error);
         });
 
-        it('provided a valid class id and color should return section', async function () {
+        it('provided a valid classroom id, should return new class', async function () {
             var newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
-            var newClass = await ClassServices.createClass(newClassroom.id, 'test class');
-            const result = await SectionServices.createSection(newClass.id, 'test section', 'orange');
+            const result = await ClassServices.createClass(newClassroom.id, 'test class');
             expect(result).to.have.property('name');
         });
     });
 
-    describe('remove Section from class', function () {
+    describe('#remove class', function () {
 
-        it('provided a valid section should return true when deleted', async function () {
+        it('provided a valid class should return true when deleted', async function () {
             const newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
             const newClass = await ClassServices.createClass(newClassroom.id, 'test class');
-            const newSection = await SectionServices.createSection(newClass.id, 'test section', 'orange');
-            const result = await SectionServices.removeSection(newSection.id);
-
+            const result = await ClassServices.removeClass(newClass.id);
             expect(result).to.be.true;
         });
     });
 
-    describe('update section with given values', function () {
+    describe('#update class', function () {
 
-        it('provided a valid section and new color, should return 1 updated row', async function () {
+        it('provided a valid class should return the number of rows updated', async function () {
             const newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
             const newClass = await ClassServices.createClass(newClassroom.id, 'test class');
-            const newSection = await SectionServices.createSection(newClass.id, 'test section', 'orange');
-            const result = await SectionServices.updateSection(newSection.id, 'color', 'green');
-
+            const result = await ClassServices.updateClass(newClass.id, 'name', 'new class name');
             expect(result).to.equal(1);
         });
     });
 
-    describe('get section for given class', function () {
+    describe('#get class', function () {
 
-        it('provided a valid class, return section inside', async function () {
+        it('provided a valid classroom, return classes as array', async function () {
             const newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
             const newClass = await ClassServices.createClass(newClassroom.id, 'test class');
-            const newSection = await SectionServices.createSection(newClass.id, 'test section', 'orange');
-            const result = await SectionServices.getSection(newClass.id);
-
+            const result = await ClassServices.getClass(newClassroom.id);
             expect(result).to.be.an('array');
         });
     });

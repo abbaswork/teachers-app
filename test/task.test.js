@@ -17,7 +17,7 @@ const { Op } = require("sequelize");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('Test Task Services', function () {
+describe('#task services', function () {
 
     before(async function () {
         await SequelizeBot.init();
@@ -46,7 +46,7 @@ describe('Test Task Services', function () {
     });
 
 
-    describe('Create Task for Section', function () {
+    describe('#create task', function () {
 
         it('provided invalid params should return error', async function () {
             await expect(TaskServices.createTask()).to.be.rejectedWith(Error);
@@ -61,7 +61,7 @@ describe('Test Task Services', function () {
         });
     });
 
-    describe('remove Task from Section', function () {
+    describe('#remove task', function () {
 
         it('provided a valid section should return true when deleted', async function () {
             const newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
@@ -74,7 +74,7 @@ describe('Test Task Services', function () {
         });
     });
 
-    describe('update task with new values', function () {
+    describe('#update task', function () {
 
         it('provided a valid section and new color, should return 1 updated row', async function () {
             const newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
@@ -87,7 +87,7 @@ describe('Test Task Services', function () {
         });
     });
 
-    describe('get section for given class', function () {
+    describe('#get task', function () {
 
         it('provided a valid class, return section inside', async function () {
             const newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');

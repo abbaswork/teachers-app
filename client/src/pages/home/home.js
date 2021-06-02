@@ -101,7 +101,6 @@ export default class Home extends React.Component {
 
   /* Side menu controller to be passed to section task */
   handleSideMenuOpen = async (open) => {
-    console.log(open);
     this.setState({
       width: !open ? '0px' : '25vw',
       padding: !open ? '0px' : '2rem'

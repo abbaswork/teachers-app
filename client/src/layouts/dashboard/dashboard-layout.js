@@ -13,17 +13,17 @@ export default function DashboardLayout(props) {
     const page = props.children.props.location.pathname.split('/');
 
 
-    /* Adjust sidebar width based on view port */
+    /* Adjust sidebar width based on view port, TODO: move to css */
     const setVw = (Number(window.innerWidth) > 480 ? '18rem' : '100vw');
 
     return (
         <Container className="h-100" fluid>
             <Sidebar sidebar={sidebar} toggle={toggle} setVw={setVw} />
-            <Container fluid id="main" style={{ marginLeft: sidebar ? setVw : '0px' }}>
+            <Container fluid id="main" style={{ marginLeft: sidebar ? setVw : '0px', width: sidebar ? "80vw" : '95vw', }}>
                 <PageHeader toggle={toggle} sidebar={sidebar}
                     title={page[1].charAt(0).toUpperCase() + page[1].slice(1)}
                 />
-                {props.children}
+                    {props.children}
             </Container>
         </Container>
     );

@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
+    "startdb": "heroku pg:psql -a teachers-toolkit",
     "build": "cd client && npm install && npm run build",
-    "test": "mocha || true",
-    "devstart": "nodemon ./bin/www",
-    "serverstart": "DEBUG=react-express-template:* npm run devstart",
+    "test":  "mocha './test/*.test.js' -g",
+    "server-start": "DEBUG=react-express-template:* npm run start",
     "lint": "eslint routes"
   },
   "dependencies": {
