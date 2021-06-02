@@ -36,7 +36,7 @@ describe('#student services', function () {
         await SequelizeBot.Class.destroy({
             where: { classroom_id: null }
         });
-        await SequelizeBot.Section.destroy({
+        await SequelizeBot.Student.destroy({
             where: { class_id: null }
         });
     });
@@ -52,7 +52,7 @@ describe('#student services', function () {
             var newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
             var newClass = await ClassServices.createClass(newClassroom.id, 'test class');
             const result = await StudentServices.createStudent(newClass.id, 'Ikra', 'Khan');
-            expect(result).to.have.property('name');
+            expect(result).to.have.property('first');
         });
     });
 
