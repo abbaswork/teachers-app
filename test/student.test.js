@@ -16,7 +16,7 @@ const { Op } = require("sequelize");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('Test Student Services', function () {
+describe('#student services', function () {
 
     before(async function () {
         await SequelizeBot.init();
@@ -42,7 +42,7 @@ describe('Test Student Services', function () {
     });
 
 
-    describe('Create Section for Class', function () {
+    describe('#create student', function () {
 
         it('provided invalid params should return error', async function () {
             await expect(StudentServices.createStudent()).to.be.rejectedWith(Error);

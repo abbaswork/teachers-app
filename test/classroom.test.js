@@ -14,7 +14,7 @@ const { Op } = require("sequelize");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('Test Classroom Services', function () {
+describe('#classroom services', function () {
 
     before(async function () {
         await SequelizeBot.init();
@@ -44,7 +44,7 @@ describe('Test Classroom Services', function () {
     });
 
 
-    describe('Create Classroom for given teacher', function () {
+    describe('#create classroom', function () {
 
         it('provided invalid email should return error', async function () {
             await expect(ClassroomServices.createClassroom()).to.be.rejectedWith(Error);
