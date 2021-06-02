@@ -22,23 +22,52 @@ class TaskServices {
         return tasks;
     };
 
+/**
+ * return tasks of only type assignment
+ * @param {number} sectionId- Provide the id of the class
+ */
+    async getTaskAssignment(sectionId) {
+
+        /* return null in the callback if invalid section ID */
+        if (!sectionId) {
+            throw Error(`Passed invalid section`);
+        }
+
+        /* Update given class for field with provided value 
+        const tasks = await SequelizeBot.Task.findAll({
+            where: { section_id: sectionId },
+            order: [['created_at', 'ASC']]
+        });
+        */
+
+        return tasks;
+    };
+
 
     /**
      * Create section for class
-     * @param {number} classId- Provide the id of the classroom
+     * @param {number} sectionId - Provide the section id for the task
+     * @param {string} name - Provide a name for the task
+     * @param {Date} date - Provide the date it was created on
+     * @param {string} type - Provide the type for the task created, Oneof[task,assesment]
+     * @param {string} assesment - Optional if type is task, can be left undefined if empty
+     * @param {decimal} points - Optional if type is task, can be left undefined if empty
+     * @param {decimal} weight - Optional if type is task, can be left undefined if empty
+     * @param {text} task - Optional if type is task, can be left undefined if empty
      */
-    async createTask(sectionId, name, date) {
+    async createTask(sectionId, name, date, task) {
 
         /* return null in the callback if invalid username or password */
         if (!sectionId || !name || !date) {
             throw Error(`Passed invalid ${!sectionId ? 'section' : (!name ? 'name' : 'date')}`);
         }
 
-        /* create class for classroom with given name */
+        /* create class for task for a given section id */
         const newTask = await SequelizeBot.Task.create({
             section_id: sectionId,
             name: name,
-            date: date
+            date: date,
+            type: task || 'task', //defaults to task if no task is provided
         });
 
         return newTask;
