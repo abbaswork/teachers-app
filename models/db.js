@@ -10,7 +10,10 @@ const classModel = require('./class');
 const sectionModel = require('./section');
 const taskModel = require('./task');
 const subtaskModel = require('./subtask');
+const studentModel = require('./student');
+const gradeModel = require('./grade');
 const { options } = require("./../config/db");
+
 
 /* Create sequelize class that can both load sequelize and return connection instance */
 class SequelizeBot {
@@ -46,6 +49,12 @@ class SequelizeBot {
 
             this.Subtask = await subtaskModel(this.sequelize, DataTypes);
             this.Task.hasMany(this.Subtask, { foreignKey: 'task_id' });
+
+            this.Student = await studentModel(this.sequelize, DataTypes);
+            this.Section.hasMany(this.Student, { foreignKey: 'section_id' });
+
+            //composite table, already has foreign keys (student and task) defined
+            this.Grade = await gradeModel(this.sequelize, DataTypes);
 
             /* Finally sync all the tables */
             this.sequelize.sync();
