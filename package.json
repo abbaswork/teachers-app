@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
+    "startdb": "heroku pg:psql -a teachers-toolkit",
     "build": "cd client && npm install && npm run build",
     "test": "mocha || true",
     "server-start": "DEBUG=react-express-template:* npm run start",
