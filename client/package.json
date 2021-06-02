@@ -10,6 +10,7 @@
     "bootstrap": "^4.5.3",
     "chart.js": "^3.2.1",
     "dateformat": "^4.4.1",
+    "namor": "^2.0.3",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
     "react-chartjs-2": "^3.0.3",
