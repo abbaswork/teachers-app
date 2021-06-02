@@ -51,7 +51,7 @@ class SequelizeBot {
             this.Task.hasMany(this.Subtask, { foreignKey: 'task_id' });
 
             this.Student = await studentModel(this.sequelize, DataTypes);
-            this.Section.hasMany(this.Student, { foreignKey: 'section_id' });
+            this.Class.hasMany(this.Student, { foreignKey: 'class_id' });
 
             //composite table, already has foreign keys (student and task) defined
             this.Grade = await gradeModel(this.sequelize, DataTypes);
