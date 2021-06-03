@@ -7,6 +7,8 @@ const StudentServices = require('../services/student');
 const ClassServices = require('../services/class');
 const ClassroomServices = require('../services/classroom');
 const TeacherServices = require('../services/teacherServices');
+const SectionServices = require('../services/section');
+const TaskServices = require('../services/task');
 
 /* DB imports for before and after loading rows */
 var SequelizeBot = require('../models/db');
@@ -39,6 +41,15 @@ describe('#student services', function () {
         await SequelizeBot.Student.destroy({
             where: { class_id: null }
         });
+        await SequelizeBot.Section.destroy({
+            where: { class_id: null }
+        });
+        await SequelizeBot.Task.destroy({
+            where: { section_id: null }
+        });
+        await SequelizeBot.Grade.destroy({
+            where: { task_id: null }
+        });
     });
 
 
@@ -53,6 +64,24 @@ describe('#student services', function () {
             var newClass = await ClassServices.createClass(newClassroom.id, 'test class');
             const result = await StudentServices.createStudent(newClass.id, 'Ikra', 'Khan');
             expect(result).to.have.property('first');
+        });
+    });
+
+    describe('#update student grade', function () {
+
+        it('provided invalid params should return error', async function () {
+            await expect(StudentServices.updateStudentGrade()).to.be.rejectedWith(Error);
+        });
+
+        it('provided a valid student id, task id and grade set the grade for the student ', async function () {
+            var newClassroom = await ClassroomServices.createClassroom('test1@hotmail.com');
+            var newClass = await ClassServices.createClass(newClassroom.id, 'test class');
+            var newSection = await SectionServices.createSection(newClass.id, 'test section', 'orange');
+            var newTask = await TaskServices.createTask(newSection.id, 'test task', new Date());
+            var newStudent = await StudentServices.createStudent(newClass.id, 'Ikra', 'Khan');
+            await StudentServices.updateStudentGrade(newStudent.id, newTask.id, 60);
+            const update = await StudentServices.updateStudentGrade(newStudent.id, newTask.id, 80);
+            expect(update).to.have.property('grade');
         });
     });
 

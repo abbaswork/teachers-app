@@ -23,6 +23,28 @@ class StudentServices {
         return newStudent;
     };
 
+    /**
+     * Update student grade, if grade does not exist for student create grade
+     * @param {number} student_id- Provide the id of the class
+     * @param {number} task_id- Provide the id of the task to update the grade for
+     * @param {number} grade- Set the grade of the student
+     */
+         async updateStudentGrade(student_id, task_id, grade) {
+
+            /* return null in the callback if invalid params */
+            if (!student_id || !task_id || !grade) {
+                throw Error(`Passed invalid params`);
+            }
+    
+            /* Try to insert field, on conflict update instead */
+            const newGrade = await SequelizeBot.Grade.upsert({
+                student_id: student_id,
+                task_id: task_id,
+                grade: grade
+            });
+        
+            return newGrade[0];
+        };
 }
 
 module.exports = new StudentServices();
