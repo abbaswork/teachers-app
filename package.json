@@ -6,7 +6,7 @@
     "start": "nodemon ./bin/www",
     "startdb": "heroku pg:psql -a teachers-toolkit",
     "build": "cd client && npm install && npm run build",
-    "test":  "mocha './test/*.test.js' -g",
+    "test": "mocha './test/*.test.js' -g",
     "server-start": "DEBUG=react-express-template:* npm run start",
     "lint": "eslint routes"
   },
