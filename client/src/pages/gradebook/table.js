@@ -210,7 +210,6 @@ function GraphTable(props) {
         const resp = await axios.get(process.env.REACT_APP_SERVER_URL + '/student/' + props.classId, {
           auth: { username: auth.email, password: auth.password }
         });
-        console.log('assignments data: ',resp.data.assignments);
         setData(resp.data.students);
 
         /* map columns */
@@ -321,8 +320,6 @@ function GraphTable(props) {
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
-  console.log('data: ', data);
-  console.log('assignments: ', assesments);
   return (
     <>
       {/* Button that creates a new student row in the table */}
