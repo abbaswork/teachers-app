@@ -14,7 +14,7 @@ var classRouter = require('../routes/class');
 var sectionRouter = require('../routes/section');
 var taskRouter = require('../routes/task');
 var subtaskRouter = require('../routes/subtask');
-
+var studentRouter = require('../routes/student');
 
 /* Export function that initialises express */
 module.exports = function expressLoader(app) {
@@ -37,6 +37,7 @@ module.exports = function expressLoader(app) {
     app.use('/section', sectionRouter);
     app.use('/task', taskRouter);
     app.use('/subtask', subtaskRouter);
+    app.use('/student', studentRouter);
 
     /* Serve Built React Client */
     app.use(express.static(path.join(__dirname, './../client/build')));

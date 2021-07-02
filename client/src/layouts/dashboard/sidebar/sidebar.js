@@ -74,7 +74,7 @@ const Sidebar = (props) => {
             { classId[2] !== undefined &&
                 <Row className="mt-3">
                     <BsPersonLinesFill className="side-icon text-white h5 ml-5" />
-                    <button onClick={() => props.history.push(`/gradebook/${classId[1]}`)}><h4 className="m-0 p-0">Gradebook</h4></button>
+                    <button onClick={() => props.history.push(`/gradebook/${classId[2]}`)}><h4 className="m-0 p-0">Gradebook</h4></button>
                 </Row>
             }
 
