@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import axios from 'axios';
 import auth from './../../auth/auth';
 import { useTable, usePagination } from 'react-table';
-import makeData from './makeData';
 
 /* UI Libraries */
 import { Button } from 'reactstrap';
@@ -210,7 +209,6 @@ function GraphTable(props) {
         const resp = await axios.get(process.env.REACT_APP_SERVER_URL + '/student/' + props.classId, {
           auth: { username: auth.email, password: auth.password }
         });
-        console.log('assignments data: ',resp.data.assignments);
         setData(resp.data.students);
 
         /* map columns */
@@ -321,8 +319,6 @@ function GraphTable(props) {
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
-  console.log('data: ', data);
-  console.log('assignments: ', assesments);
   return (
     <>
       {/* Button that creates a new student row in the table */}

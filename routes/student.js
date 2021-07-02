@@ -39,7 +39,6 @@ router.put('/:id', passport.authenticate('basic', { session: false }),
 router.delete('/:id', passport.authenticate('basic', { session: false }),
     async function (req, res, next) {
         try {
-            console.log('delete: ', req.params.id);
             const task = await StudentServices.deleteStudent(req.params.id);
             res.status(200).json(task);
         } catch (e) {
