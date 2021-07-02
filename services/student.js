@@ -1,5 +1,4 @@
 var SequelizeBot = require('../models/db');
-const { Sequelize } = require("sequelize");
 
 class StudentServices {
 
