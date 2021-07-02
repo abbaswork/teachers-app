@@ -22,9 +22,6 @@ class ClassServices {
             order: [['created_at', 'ASC']]
         });
 
-
-        //console.log(classes[0].name);
-
         return classes;
     };
 

@@ -67,7 +67,6 @@ class StudentServices {
         }
 
         /* Try to insert field, on conflict update instead */
-        console.log('update grade: ', grade);
         const newGrade = await SequelizeBot.Grade.upsert({
             student_id: student_id,
             task_id: task_id,
