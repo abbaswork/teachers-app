@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import auth from './../../auth/auth';
 import { useTable, usePagination } from 'react-table';
 import makeData from './makeData';
+
+/* UI Libraries */
+import { Button } from 'reactstrap';
+
+
 
 // Create an editable cell renderer
 const EditableCell = ({
   value: initialValue,
   row: { index },
   column: { id },
+  column: {disabled},
   updateMyData, // This is a custom function that we supplied to our table instance
 }) => {
   // We need to keep and update the state of the cell normally
@@ -26,9 +34,8 @@ const EditableCell = ({
     setValue(initialValue)
   }, [initialValue])
 
-  return <input value={value} onChange={onChange} onBlur={onBlur} />
+  return <input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} />
 }
-
 // Set our editable cell renderer as the default Cell renderer
 const defaultColumn = {
   Cell: EditableCell,
@@ -150,88 +157,149 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
   )
 }
 
-const passCols = [
-  {
-    Header: 'Name',
-    columns: [
-      {
-        Header: 'First Name',
-        accessor: 'firstName',
-      },
-      {
-        Header: 'Last Name',
-        accessor: 'lastName',
-      },
-    ],
-  },
-  {
-    Header: 'Assignment',
-    columns: [
-      {
-        Header: 'Grade',
-        accessor: 'grade',
-      },
-      {
-        Header: 'Weight',
-        accessor: 'weight',
-      },
-      {
-        Header: 'Mark',
-        accessor: 'mark',
-      },
-    ],
-  },
-  {
-    // Make an expander cell
-    Header:'Actions', // No header
-    id: 'graphStudent', // It needs an ID
-    Cell: ({ row }) => (
-      // Use Cell to render an expander for each row.
-      // We can use the getToggleRowExpandedProps prop-getter
-      // to build the expander.
-      <span>
-        👇
-      </span>
-    ),
-  },
-];
 
-function GraphTable() {
+function GraphTable(props) {
 
-  /* mount data for table */
+  /* declare states and columns */
+  const [data, setData] = React.useState([]);
+  const [assesments, setAssesments] = React.useState([]);
+  const [skipPageReset, setSkipPageReset] = React.useState(false);
+
+  const columns =
+    [
+      {
+        Header: 'Student',
+        columns: [
+          {
+            Header: 'First Name',
+            accessor: 'first',
+          },
+          {
+            Header: 'Last Name',
+            accessor: 'last',
+          },
+        ],
+      }, ...assesments, 
+      {
+        Header: 'Actions',
+        id: 'actions',
+        Cell: ({ row }) => (
+          <span>
+            <Button color="primary" onClick={() => updateStudentRow(row)}>Save</Button>
+            <Button color="primary" onClick={() => deleteStudentRow(row)}>Delete</Button>
+          </span>
+        ),
+      }
+    ];
+
+
+  /* Mount data for table */
   useEffect(() => {
-    // Update the document title using the browser API
+    async function fetchData() {
 
-  });
+      try { /* fetch student grades and set table data */
+        const resp = await axios.get(process.env.REACT_APP_SERVER_URL + '/student/' + props.classId, {
+          auth: { username: auth.email, password: auth.password }
+        });
+        console.log('assignments data: ',resp.data.assignments);
+        setData(resp.data.students);
 
-  const columns = React.useMemo(
-    () => passCols,
-    []
-  )
+        /* map columns */
+        var assignmentHeaders = [];
+        resp.data.assignments.map((assignment, index) => {
+          assignmentHeaders.push({
+            Header: `${assignment.name}`,
+            columns: [
+              {
+                Header: 'grade',
+                accessor: `${assignment.id}.grade`,
+              },
+              {
+                Header: 'points',
+                accessor: `${assignment.id}.points`,
+                Cell: () => assignment.points,
+                disabled: true
+              },
+              {
+                Header: 'weight',
+                accessor: `${assignment.id}.weight`,
+                Cell: () => assignment.weight,
+                disabled: true,
+              },
+            ],
+          })
+        });
+        setAssesments(assignmentHeaders);
+      } catch (e) {
+        console.log(e);
+      }
+    }
 
-  const [data, setData] = React.useState(() => makeData(20))
-  const [skipPageReset, setSkipPageReset] = React.useState(false)
+    /* call async function */
+    fetchData();
+  }, []);
 
-  // We need to keep the table from resetting the pageIndex when we
-  // Update data. So we can keep track of that flag with a ref.
+  /* Function to add a new student full of empty values that can then be updated */
+  const addStudentRow = () => {
+    setData([...data,
+    {
+      id: undefined,
+      class_id: props.classId,
+      first: '',
+      last: '',
+    }
+    ]);
+  };
 
-  // When our cell renderer calls updateMyData, we'll use
-  // the rowIndex, columnId and new value to update the
-  // original data
+  /* function that updates student row */
+  const updateStudentRow = async (row) => {
+    
+    try { /* try to update row */
+      await axios.put(process.env.REACT_APP_SERVER_URL + '/student/' + props.classId,
+        { studentRow: row.original },
+        { auth: { username: auth.email, password: auth.password } });
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
+
+    /* function that deletes student row */
+    const deleteStudentRow = async (row) => {
+
+      /* update data to remove rows */
+      setSkipPageReset(true);
+      setData(old =>
+        old.filter(item => item.id != row.original.id)
+      );
+    
+      try { /* try to remove row by passing student id */
+        await axios.delete(process.env.REACT_APP_SERVER_URL + '/student/' + row.original.id,
+        { auth: { username: auth.email, password: auth.password } });
+      } catch (e) {
+        console.log(e);
+      }
+  
+    }
+
+  /* When our cell renderer calls updateMyData, we'll use the rowIndex, columnId and new value to update the original data */
   const updateMyData = (rowIndex, columnId, value) => {
-    // We also turn on the flag to not reset the page
-    setSkipPageReset(true)
+    /* don't reset page to maintian proper id's */
+    setSkipPageReset(true);
     setData(old =>
       old.map((row, index) => {
         if (index === rowIndex) {
+          /*Split the string using dot notation*/
+          var colId = columnId.split(".")[0];
+          var colName = columnId.split(".")[1];
           return {
             ...old[rowIndex],
-            [columnId]: value,
+            [colId]: colName ? {[colName]: value} : value,
           }
         }
         return row
       })
-    )
+    );
   }
 
   // After data chagnes, we turn the flag back off
@@ -239,18 +307,23 @@ function GraphTable() {
   // editing it, the page is reset
   React.useEffect(() => {
     setSkipPageReset(false)
-  }, [data])
+  }, [data]);
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
-
+  console.log('data: ', data);
+  console.log('assignments: ', assesments);
   return (
-    <Table
-      columns={columns}
-      data={data}
-      updateMyData={updateMyData}
-      skipPageReset={skipPageReset}
-    />
+    <>
+      {/* Button that creates a new student row in the table */}
+      <Button color="primary" onClick={addStudentRow}>Create Student</Button>
+      <Table
+        columns={columns}
+        data={data || []}
+        updateMyData={updateMyData}
+        skipPageReset={skipPageReset}
+      />
+    </>
   )
 }
 
