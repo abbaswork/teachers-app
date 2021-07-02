@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import axios from 'axios';
 import auth from './../../auth/auth';
 import { useTable, usePagination } from 'react-table';
-import makeData from './makeData';
 
 /* UI Libraries */
 import { Button } from 'reactstrap';

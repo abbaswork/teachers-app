@@ -1,5 +1,5 @@
 /* import ui components */
-import { Row, Col, Container } from "reactstrap";
+import { Row, Container } from "reactstrap";
 
 /* import page components */
 import GradeTable from "./table";
