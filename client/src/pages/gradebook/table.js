@@ -37,15 +37,23 @@ const EditableCell = ({
   return <input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} />
 }
 // Set our editable cell renderer as the default Cell renderer
-const defaultColumn = {
-  Cell: EditableCell,
-}
+
 
 // Be sure to pass our updateMyData and the skipPageReset option
 function Table({ columns, data, updateMyData, skipPageReset }) {
   // For this example, we're using pagination to illustrate how to stop
   // the current page from resetting when our data changes
   // Otherwise, nothing is different here.
+  const defaultColumn = React.useMemo(
+    () => ({
+      Cell: EditableCell,
+      minWidth: 30,
+      width: 150,
+      maxWidth: 400,
+    }),
+    []
+  )
+  
   const {
     getTableProps,
     getTableBodyProps,
@@ -87,7 +95,7 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                  <th {...column.getHeaderProps({ style: {width: '10px'}})}>{column.render('Header')}</th>
                 ))}
               </tr>
             ))}
@@ -105,8 +113,8 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
             })}
           </tbody>
         </table>
-
-        {/*
+      
+      {/* Adding pagination to table */}
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -151,7 +159,6 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
           ))}
         </select>
       </div>
-          */}
       </div>
     </div>
   )
@@ -173,10 +180,12 @@ function GraphTable(props) {
           {
             Header: 'First Name',
             accessor: 'first',
+            Cell: ({ row}) => <span>{row.values.first}</span>
           },
           {
             Header: 'Last Name',
             accessor: 'last',
+            Cell: ({ row}) => <span>{row.values.first}</span>
           },
         ],
       }, ...assesments, 
@@ -213,6 +222,7 @@ function GraphTable(props) {
               {
                 Header: 'grade',
                 accessor: `${assignment.id}.grade`,
+                Cell: ({row}) => <span>{row.values[`${assignment.id}.grade`]}</span>
               },
               {
                 Header: 'points',
