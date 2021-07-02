@@ -49,9 +49,6 @@ router.put('/:id', passport.authenticate('basic', { session: false }),
 /* update section */
 router.put('/assesment/:id', passport.authenticate('basic', { session: false }),
     async function (req, res, next) {
-
-        console.log(req.body);
-
         try {
             const task = await TaskServices.updateTaskAssesment(req.params.id, req.body.assesment);
             res.status(200).json(task);
