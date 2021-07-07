@@ -130,7 +130,7 @@ export default class Home extends React.Component {
             {/* Disable wrap feature of rows and create horizontal scroll */}
             <Row className="flex-row flex-nowrap">
               {this.state.data.map((section) =>
-                <Col xs="12" md="3" key={section.id}>
+                <Col xs="12" md="8" lg="6" xl="3" key={section.id}>
                   <Section section={section} handleDeleteSection={this.handleDeleteSection} handleUpdateSection={this.handleUpdateSection}
                     handleCreateSection={this.handleCreateSection} handleSideMenuOpen={this.handleSideMenuOpen}
                     handleActiveTask={this.handleActiveTask}
@@ -139,7 +139,7 @@ export default class Home extends React.Component {
               )}
 
               {/* render psuedo section to create new section */}
-              <Col xs="12" md="3">
+              <Col xs="12" md="8" lg="6" xl="4">
                 <Section section={null} handleDeleteSection={this.handleDeleteSection} handleUpdateSection={this.handleUpdateSection} handleCreateSection={this.handleCreateSection} />
               </Col>
             </Row>
