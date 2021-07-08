@@ -116,12 +116,12 @@ export default class Section extends React.Component {
 
     render() {
         return (
-            <Container className="border p-4 shadow" style={{ height: '80vh', overflowY: 'scroll' }} fluid>
+            <Container className="border p-4 shadow" style={{ height: '80vh', overflowY: 'scroll', minWidth: '300px' }} fluid>
 
                 {/* show contents for valid sections only*/}
                 { this.props.section !== null &&
                     <div>
-
+ 
                         {/* Header Row with dropdown settings for section */}
                         <Row className="mb-5">
                             <Col xs="8" md="9">
