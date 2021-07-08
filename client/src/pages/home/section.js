@@ -116,7 +116,7 @@ export default class Section extends React.Component {
 
     render() {
         return (
-            <Container className="border p-4 shadow" style={{ height: '80vh', overflowY: 'scroll', minWidth: '300px' }} fluid>
+            <Container className="border p-4 shadow" style={{ height: '80vh', overflowY: 'scroll', minWidth: '375px' }} fluid>
 
                 {/* show contents for valid sections only*/}
                 { this.props.section !== null &&
@@ -124,7 +124,7 @@ export default class Section extends React.Component {
  
                         {/* Header Row with dropdown settings for section */}
                         <Row className="mb-5">
-                            <Col xs="8" md="9">
+                            <Col xs="8">
                                 <h4 className="d-inline">
                                     <span className="badge text-white rounded-0" style={{ backgroundColor: this.props.section.color }}>
                                         {/* If updating name, use this field to add name instead */}
@@ -156,7 +156,7 @@ export default class Section extends React.Component {
                             <Col xs="2" className="text-right">
                                 <BsFilePlus style={{ color: this.props.section.color, fontSize: '1.5rem', cursor: 'pointer' }} onClick={() => this.handleCreateTask()} />
                             </Col>
-                            <Col className="text-right" xs="1">
+                            <Col className="text-right" xs="2">
                                 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                                     <DropdownToggle tag="div" style={{ cursor: 'pointer' }}>
                                         <BsThreeDots />
