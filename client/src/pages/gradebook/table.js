@@ -191,7 +191,6 @@ function GraphTable(props) {
         id: 'actions',
         Cell: ({ row }) => (
           <span>
-            <Button color="primary" onClick={() => updateStudentRow(row)}>Save</Button>
             <Button color="primary" onClick={() => {
               setRowDelete(row);
               setConfirmDelete(true);
@@ -211,7 +210,7 @@ function GraphTable(props) {
           auth: { username: auth.email, password: auth.password }
         });
         setData(resp.data.students);
-
+        console.log('data: ', resp.data.assignments);
         /* map columns */
         var assignmentHeaders = [];
         resp.data.assignments.map((assignment) => {
@@ -262,21 +261,21 @@ function GraphTable(props) {
   /* function that updates student row */
   const updateStudentRow = async (row) => {
 
-    /* validate first and last name exist for student to update */
-    if (!row.values.first || !row.values.last) {
-      alert('first and last name must to be valid');
+    /* validate first and last name exist for student to update
+    if (!row.first || !row.last) {
+      alert('Student must have a valid first name');
       return;
-    }
+    } */
 
     try { /* try to update row */
       var resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/student/' + props.classId,
-        { studentRow: row.original },
+        { studentRow: row },
         { auth: { username: auth.email, password: auth.password } });
 
       /* display alert based on server response */
-      resp.status === 200 ?
-        setUpdateData({ type: 'info', message: 'Student updated sucesfully' }) :
+      if (resp.status !== 200) {
         setUpdateData({ type: 'warning', message: 'Student was not updated due to error please refresh page and try again' });
+      }
     } catch (e) {
       setUpdateData({ type: 'danger', message: 'Internal Server Error' });
       console.log(e);
@@ -312,10 +311,12 @@ function GraphTable(props) {
           /*Split the string using dot notation*/
           var colId = columnId.split(".")[0];
           var colName = columnId.split(".")[1];
-          return {
+          var update = {
             ...old[rowIndex],
             [colId]: colName ? { [colName]: value } : value,
-          }
+          };
+          updateStudentRow(update);
+          return update;
         }
         return row
       })
