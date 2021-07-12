@@ -61,15 +61,15 @@ class StudentServices {
     async updateGrade(student_id, task_id, grade) {
 
         /* return null in the callback if invalid params */
-        if (!student_id || !task_id || !grade) {
-            throw Error(`Passed invalid params`);
+        if (!student_id || !task_id) {
+            throw Error(`Passed invalid params: student_id: ${student_id}, task_id: ${task_id}, grade: ${grade}`);
         }
 
         /* Try to insert field, on conflict update instead */
         const newGrade = await SequelizeBot.Grade.upsert({
             student_id: student_id,
             task_id: task_id,
-            grade: grade
+            grade: grade || 0
         });
 
         return newGrade[0];
