@@ -210,7 +210,7 @@ function GraphTable(props) {
           auth: { username: auth.email, password: auth.password }
         });
         setData(resp.data.students);
-        console.log('data: ', resp.data.assignments);
+
         /* map columns */
         var assignmentHeaders = [];
         resp.data.assignments.map((assignment) => {
