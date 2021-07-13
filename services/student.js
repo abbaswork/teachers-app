@@ -127,7 +127,7 @@ class StudentServices {
             /* Get all assignments that belong in the sections for the class id provided */
             const assignments = await SequelizeBot.Section.findAll({
                 raw: true,
-                attributes: ['class_id', 'id', 'tasks.id', 'tasks.name', 'tasks.points', 'tasks.weight'],
+                attributes: ['class_id', 'id', 'color', 'tasks.id', 'tasks.name', 'tasks.points', 'tasks.weight'],
                 where: {
                     [type]: id
                 },
