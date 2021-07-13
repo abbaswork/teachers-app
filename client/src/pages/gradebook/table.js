@@ -5,6 +5,7 @@ import { useTable, usePagination, defaultColumn } from 'react-table';
 
 /* UI Libraries */
 import { Button, Alert, Row, Col } from 'reactstrap';
+import { BsFillTrashFill, BsFillPlusSquareFill, BsFillXSquareFill } from "react-icons/bs";
 import ConfirmAlert from '../../core/confirmAlert';
 
 // Create an editable cell renderer
@@ -187,14 +188,16 @@ function GraphTable(props) {
         ],
       }, ...assesments,
       {
-        Header: 'Actions',
+        Header: 'Options',
         id: 'actions',
         Cell: ({ row }) => (
           <span>
-            <Button color="primary" onClick={() => {
+            <BsFillTrashFill className="mr-2"
+            style={{ cursor: 'pointer', color: 'red', fontSize: '1.5rem' }}
+            onClick={() => {
               setRowDelete(row);
               setConfirmDelete(true);
-            }}>Delete</Button>
+            }}/>
           </span>
         ),
       }
@@ -210,12 +213,14 @@ function GraphTable(props) {
           auth: { username: auth.email, password: auth.password }
         });
         setData(resp.data.students);
+        console.log(resp.data.assignments);
 
         /* map columns */
         var assignmentHeaders = [];
         resp.data.assignments.map((assignment) => {
           assignmentHeaders.push({
-            Header: `${assignment.name}`,
+            Header: () => <span style={{padding: '.25rem .5rem', backgroundColor: assignment.color, color: 'white'}}>{assignment.name}</span>,
+            id: assignment.id,
             columns: [
               {
                 Header: 'grade',
