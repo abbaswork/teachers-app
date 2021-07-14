@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import auth from './../../auth/auth';
-import { useTable, usePagination, defaultColumn } from 'react-table';
+import { useTable, usePagination } from 'react-table';
 
 /* UI Libraries */
-import { Button, Alert, Row, Col } from 'reactstrap';
+import { Button, Alert, Row, Col, Container } from 'reactstrap';
+import { BsFillTrashFill} from "react-icons/bs";
 import ConfirmAlert from '../../core/confirmAlert';
 
 // Create an editable cell renderer
@@ -58,11 +59,8 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
     page,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     pageCount,
     gotoPage,
-    nextPage,
-    previousPage,
     setPageSize,
     state: { pageIndex, pageSize },
   } = useTable(
@@ -82,12 +80,16 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
     usePagination
   )
 
+  console.log('page inde: ', pageIndex);
+  console.log('page count: ', pageCount);
+
+
   // Render the UI for your table
   return (
-    <div className="tableContainer">
+    <div className="tableContainer shadow">
       <div className="tableWrap">
         <table {...getTableProps()}>
-          <thead>
+          <thead className="shadow">
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
@@ -110,51 +112,31 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
           </tbody>
         </table>
 
-        {/* Adding pagination to table */}
-        <div className="pagination">
-          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            {'<<'}
-          </button>{' '}
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            {'<'}
-          </button>{' '}
-          <button onClick={() => nextPage()} disabled={!canNextPage}>
-            {'>'}
-          </button>{' '}
-          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-            {'>>'}
-          </button>{' '}
-          <span>
-            Page{' '}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
-          </span>
-          <span>
-            | Go to page:{' '}
-            <input
-              type="number"
-              defaultValue={pageIndex + 1}
+        <Row>
+          <Col>
+            <div className="pagination">
+              <button Click={() => gotoPage(0)} disabled={!canPreviousPage}>&laquo;</button>
+              {[1, 2, 3, 4, 5].map((row) =>
+                <button id={row} key={row} className={pageIndex === (row - 1) ? 'active' : ''} onClick={() => gotoPage(row - 1)} disabled={!(pageCount >= row)}>{row}</button>
+              )}
+              <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>&raquo;</button>
+            </div>
+          </Col>
+          <Col className="text-right pr-5 my-auto">
+            <select
+              value={pageSize}
               onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                gotoPage(page)
+                setPageSize(Number(e.target.value))
               }}
-              style={{ width: '100px' }}
-            />
-          </span>{' '}
-          <select
-            value={pageSize}
-            onChange={e => {
-              setPageSize(Number(e.target.value))
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
+            >
+              {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </Col>
+        </Row>
       </div>
     </div>
   )
@@ -187,14 +169,16 @@ function GraphTable(props) {
         ],
       }, ...assesments,
       {
-        Header: 'Actions',
+        Header: 'Options',
         id: 'actions',
         Cell: ({ row }) => (
           <span>
-            <Button color="primary" onClick={() => {
-              setRowDelete(row);
-              setConfirmDelete(true);
-            }}>Delete</Button>
+            <BsFillTrashFill className="mr-2"
+              style={{ cursor: 'pointer', color: 'red', fontSize: '1.5rem' }}
+              onClick={() => {
+                setRowDelete(row);
+                setConfirmDelete(true);
+              }} />
           </span>
         ),
       }
@@ -210,12 +194,14 @@ function GraphTable(props) {
           auth: { username: auth.email, password: auth.password }
         });
         setData(resp.data.students);
+        console.log(resp.data.assignments);
 
         /* map columns */
         var assignmentHeaders = [];
         resp.data.assignments.map((assignment) => {
           assignmentHeaders.push({
-            Header: `${assignment.name}`,
+            Header: () => <div style={{ padding: '.25rem .5rem', backgroundColor: assignment.color, color: 'white', textAlign: 'center' }}>{assignment.name}</div>,
+            id: assignment.id,
             columns: [
               {
                 Header: 'grade',
@@ -234,9 +220,9 @@ function GraphTable(props) {
                 disabled: true,
               },
             ],
-          })
+          });
+          setAssesments(assignmentHeaders);
         });
-        setAssesments(assignmentHeaders);
       } catch (e) {
         console.log(e);
       }
@@ -260,13 +246,6 @@ function GraphTable(props) {
 
   /* function that updates student row */
   const updateStudentRow = async (row) => {
-
-    /* validate first and last name exist for student to update
-    if (!row.first || !row.last) {
-      alert('Student must have a valid first name');
-      return;
-    } */
-
     try { /* try to update row */
       var resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/student/' + props.classId,
         { studentRow: row },
@@ -289,7 +268,7 @@ function GraphTable(props) {
     /* update data to remove rows */
     setSkipPageReset(true);
     setData(old =>
-      old.filter(item => item.id != row.original.id)
+      old.filter(item => item.id !== row.original.id)
     );
 
     try { /* try to remove row by passing student id */
@@ -347,18 +326,18 @@ function GraphTable(props) {
             {updateData.message}
           </Alert >
         </Col>
-        <Col xs="12">
-          <Button color="primary" onClick={addStudentRow}>Create Student</Button>
-        </Col>
       </Row>
 
       {/* Button that creates a new student row in the table */}
-      <Table
-        columns={columns}
-        data={data || []}
-        updateMyData={updateMyData}
-        skipPageReset={skipPageReset}
-      />
+      <Container fluid>
+        <Table
+          columns={columns}
+          data={data || []}
+          updateMyData={updateMyData}
+          skipPageReset={skipPageReset}
+        />
+        <Button style={{backgroundColor: 'orange', border: 'none', float: 'right', marginTop: '1rem'}} onClick={addStudentRow}>Create Student</Button>
+      </Container>
     </>
   )
 }
