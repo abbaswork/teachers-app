@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import auth from './../../auth/auth';
-import { useTable, usePagination, defaultColumn } from 'react-table';
+import { useTable, usePagination } from 'react-table';
 
 /* UI Libraries */
 import { Button, Alert, Row, Col, Container } from 'reactstrap';
-import { BsFillTrashFill, BsFillPlusSquareFill, BsFillXSquareFill } from "react-icons/bs";
+import { BsFillTrashFill} from "react-icons/bs";
 import ConfirmAlert from '../../core/confirmAlert';
 
 // Create an editable cell renderer
@@ -59,11 +59,8 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
     page,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     pageCount,
     gotoPage,
-    nextPage,
-    previousPage,
     setPageSize,
     state: { pageIndex, pageSize },
   } = useTable(
@@ -140,51 +137,6 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
             </select>
           </Col>
         </Row>
-        {/* Adding pagination to table
-        <Row className="pagination">
-          <Col className="align-middle">
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-              {'<<'}
-            </button>
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-              {'<'}
-            </button>
-              {pageIndex + 1}
-            <button onClick={() => nextPage()} disabled={!canNextPage}>
-              {'>'}
-            </button>
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-              {'>>'}
-            </button>
-          </Col>
-          <Col className="text-right">
-            <span>
-              | Go to page:{' '}
-              <input
-                type="number"
-                defaultValue={pageIndex + 1}
-                onChange={e => {
-                  const page = e.target.value ? Number(e.target.value) - 1 : 0
-                  gotoPage(page)
-                }}
-                style={{ width: '100px' }}
-              />
-            </span>{' '}
-            <select
-              value={pageSize}
-              onChange={e => {
-                setPageSize(Number(e.target.value))
-              }}
-            >
-              {[5, 10, 20, 30, 40, 50].map(pageSize => (
-                <option key={pageSize} value={pageSize}>
-                  Show {pageSize}
-                </option>
-              ))}
-            </select>
-          </Col>
-        </Row>
-         */}
       </div>
     </div>
   )
@@ -268,9 +220,9 @@ function GraphTable(props) {
                 disabled: true,
               },
             ],
-          })
+          });
+          setAssesments(assignmentHeaders);
         });
-        setAssesments(assignmentHeaders);
       } catch (e) {
         console.log(e);
       }
@@ -294,13 +246,6 @@ function GraphTable(props) {
 
   /* function that updates student row */
   const updateStudentRow = async (row) => {
-
-    /* validate first and last name exist for student to update
-    if (!row.first || !row.last) {
-      alert('Student must have a valid first name');
-      return;
-    } */
-
     try { /* try to update row */
       var resp = await axios.put(process.env.REACT_APP_SERVER_URL + '/student/' + props.classId,
         { studentRow: row },
