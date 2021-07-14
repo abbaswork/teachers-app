@@ -15,11 +15,11 @@ const ConfirmAlert = (props) => {
         <ModalHeader toggle={toggle}>{props.title}</ModalHeader>
         <ModalBody>{props.message}</ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => {
+          <Button color="danger" onClick={() => {
             toggle();
             props.confirmAction(props.confirmData);
           }}>Confirm</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
+          <Button outline color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
   );
