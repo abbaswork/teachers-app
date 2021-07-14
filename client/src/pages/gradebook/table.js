@@ -4,7 +4,7 @@ import auth from './../../auth/auth';
 import { useTable, usePagination, defaultColumn } from 'react-table';
 
 /* UI Libraries */
-import { Button, Alert, Row, Col } from 'reactstrap';
+import { Button, Alert, Row, Col, Container } from 'reactstrap';
 import { BsFillTrashFill, BsFillPlusSquareFill, BsFillXSquareFill } from "react-icons/bs";
 import ConfirmAlert from '../../core/confirmAlert';
 
@@ -83,12 +83,16 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
     usePagination
   )
 
+  console.log('page inde: ', pageIndex);
+  console.log('page count: ', pageCount);
+
+
   // Render the UI for your table
   return (
-    <div className="tableContainer">
+    <div className="tableContainer shadow">
       <div className="tableWrap">
         <table {...getTableProps()}>
-          <thead>
+          <thead className="shadow">
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
@@ -111,51 +115,76 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
           </tbody>
         </table>
 
-        {/* Adding pagination to table */}
-        <div className="pagination">
-          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            {'<<'}
-          </button>{' '}
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            {'<'}
-          </button>{' '}
-          <button onClick={() => nextPage()} disabled={!canNextPage}>
-            {'>'}
-          </button>{' '}
-          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-            {'>>'}
-          </button>{' '}
-          <span>
-            Page{' '}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
-          </span>
-          <span>
-            | Go to page:{' '}
-            <input
-              type="number"
-              defaultValue={pageIndex + 1}
+        <Row>
+          <Col>
+            <div className="pagination">
+              <button Click={() => gotoPage(0)} disabled={!canPreviousPage}>&laquo;</button>
+              {[1, 2, 3, 4, 5].map((row) =>
+                <button id={row} key={row} className={pageIndex === (row - 1) ? 'active' : ''} onClick={() => gotoPage(row - 1)} disabled={!(pageCount >= row)}>{row}</button>
+              )}
+              <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>&raquo;</button>
+            </div>
+          </Col>
+          <Col className="text-right pr-5 my-auto">
+            <select
+              value={pageSize}
               onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                gotoPage(page)
+                setPageSize(Number(e.target.value))
               }}
-              style={{ width: '100px' }}
-            />
-          </span>{' '}
-          <select
-            value={pageSize}
-            onChange={e => {
-              setPageSize(Number(e.target.value))
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
+            >
+              {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </Col>
+        </Row>
+        {/* Adding pagination to table
+        <Row className="pagination">
+          <Col className="align-middle">
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {'<<'}
+            </button>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {'<'}
+            </button>
+              {pageIndex + 1}
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              {'>'}
+            </button>
+            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {'>>'}
+            </button>
+          </Col>
+          <Col className="text-right">
+            <span>
+              | Go to page:{' '}
+              <input
+                type="number"
+                defaultValue={pageIndex + 1}
+                onChange={e => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0
+                  gotoPage(page)
+                }}
+                style={{ width: '100px' }}
+              />
+            </span>{' '}
+            <select
+              value={pageSize}
+              onChange={e => {
+                setPageSize(Number(e.target.value))
+              }}
+            >
+              {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </Col>
+        </Row>
+         */}
       </div>
     </div>
   )
@@ -193,11 +222,11 @@ function GraphTable(props) {
         Cell: ({ row }) => (
           <span>
             <BsFillTrashFill className="mr-2"
-            style={{ cursor: 'pointer', color: 'red', fontSize: '1.5rem' }}
-            onClick={() => {
-              setRowDelete(row);
-              setConfirmDelete(true);
-            }}/>
+              style={{ cursor: 'pointer', color: 'red', fontSize: '1.5rem' }}
+              onClick={() => {
+                setRowDelete(row);
+                setConfirmDelete(true);
+              }} />
           </span>
         ),
       }
@@ -219,7 +248,7 @@ function GraphTable(props) {
         var assignmentHeaders = [];
         resp.data.assignments.map((assignment) => {
           assignmentHeaders.push({
-            Header: () => <span style={{padding: '.25rem .5rem', backgroundColor: assignment.color, color: 'white'}}>{assignment.name}</span>,
+            Header: () => <div style={{ padding: '.25rem .5rem', backgroundColor: assignment.color, color: 'white', textAlign: 'center' }}>{assignment.name}</div>,
             id: assignment.id,
             columns: [
               {
@@ -294,7 +323,7 @@ function GraphTable(props) {
     /* update data to remove rows */
     setSkipPageReset(true);
     setData(old =>
-      old.filter(item => item.id != row.original.id)
+      old.filter(item => item.id !== row.original.id)
     );
 
     try { /* try to remove row by passing student id */
@@ -352,18 +381,18 @@ function GraphTable(props) {
             {updateData.message}
           </Alert >
         </Col>
-        <Col xs="12">
-          <Button color="primary" onClick={addStudentRow}>Create Student</Button>
-        </Col>
       </Row>
 
       {/* Button that creates a new student row in the table */}
-      <Table
-        columns={columns}
-        data={data || []}
-        updateMyData={updateMyData}
-        skipPageReset={skipPageReset}
-      />
+      <Container fluid>
+        <Table
+          columns={columns}
+          data={data || []}
+          updateMyData={updateMyData}
+          skipPageReset={skipPageReset}
+        />
+        <Button style={{backgroundColor: 'orange', border: 'none', float: 'right', marginTop: '1rem'}} onClick={addStudentRow}>Create Student</Button>
+      </Container>
     </>
   )
 }
