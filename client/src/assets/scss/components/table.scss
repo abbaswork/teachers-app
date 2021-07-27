@@ -28,6 +28,27 @@
       background: #f2f2f2;
     }
 
+    /* styling divider for header rows */
+    .header-row-0 {
+      th{
+        border-left: solid 2px black;
+      }
+      th:first-child{
+        border-left: none;
+      }
+    }
+
+    .header-row-1 {
+      th:nth-child(3n){
+        border-left: solid 2px black;
+      }
+    }
+
+    /* style divider for rows */
+    td:nth-child(3n){
+      border-left: solid 2px black;
+    }
+
     td,
     th {
       margin: 0;

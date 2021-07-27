@@ -80,18 +80,14 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
     usePagination
   )
 
-  console.log('page inde: ', pageIndex);
-  console.log('page count: ', pageCount);
-
-
   // Render the UI for your table
   return (
     <div className="tableContainer shadow">
       <div className="tableWrap">
         <table {...getTableProps()}>
           <thead className="shadow">
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroups.map((headerGroup,i) => (
+              <tr className={'header-row-'+i} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th {...column.getHeaderProps({ style: { width: '10px' } })}>{column.render('Header')}</th>
                 ))}
@@ -194,7 +190,6 @@ function GraphTable(props) {
           auth: { username: auth.email, password: auth.password }
         });
         setData(resp.data.students);
-        console.log(resp.data.assignments);
 
         /* map columns */
         var assignmentHeaders = [];
